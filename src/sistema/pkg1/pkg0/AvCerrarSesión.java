@@ -2,6 +2,8 @@ package sistema.pkg1.pkg0;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -9,9 +11,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-public class AvCerrarSesión extends JFrame{
+public class AvCerrarSesión extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
-    public AvCerrarSesión(){
+    JButton boton1;
+    JButton boton2;
+    String IdUsuario;
+    
+    public AvCerrarSesión(String IdUsuario){
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -20,6 +27,7 @@ public class AvCerrarSesión extends JFrame{
         this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        this.IdUsuario = IdUsuario;
     }
     
     private void Componente(){
@@ -65,18 +73,34 @@ public class AvCerrarSesión extends JFrame{
     
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cancelar");//establecemos texto al boton
         boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            Gerente g1;
+            g1 = new Gerente();
+            g1.setVisible(true);
+        }else if (e.getSource() == boton2){
+            InicioGerente g2 = new InicioGerente(IdUsuario);
+            g2.setVisible(true);
+        }
+        panel.setVisible(false);
+        this.dispose();
     }
 }

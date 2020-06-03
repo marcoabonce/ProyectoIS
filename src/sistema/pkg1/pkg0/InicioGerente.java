@@ -1,9 +1,12 @@
 package sistema.pkg1.pkg0;
 
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,9 +15,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-public class InicioGerente extends JFrame{
+public class InicioGerente extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
-    public InicioGerente(int IdUsuario){
+    JButton boton2;
+    String IdUsuario;
+    Consultas con;
+    JTextArea areaTexto;
+    
+    public InicioGerente(String IdUsuario){
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -23,6 +32,9 @@ public class InicioGerente extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        this.IdUsuario = IdUsuario;
+        con = new Consultas();
+        areaTexto.setText(con.ConsultarNombreGerente(IdUsuario));
     }
     
     private void Componente(){
@@ -70,9 +82,9 @@ public class InicioGerente extends JFrame{
     }
     
     private void AreadeTexto() {
-        JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
+        areaTexto = new JTextArea(); //instanciamos area de texto
         areaTexto.setBounds(170 , 50, 300, 35);
-        areaTexto.setText("Nombre Gerente");
+        areaTexto.setText("Sin nombre");
         areaTexto.setEditable(false);//permiso de editar contenido
         areaTexto.setBackground(new java.awt.Color(255, 140, 0));
         areaTexto.setFont(new Font("arial", 1, 20));
@@ -88,12 +100,13 @@ public class InicioGerente extends JFrame{
         boton1.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton1);//agregar boton al panel
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cerrar Sesión");//establecemos texto al boton
         boton2.setBounds(1200, 10, 150, 30);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
         
         JButton boton3 = new JButton();
         boton3.setText("Consultar stock");//establecemos texto al boton
@@ -122,6 +135,16 @@ public class InicioGerente extends JFrame{
         boton6.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton6.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton6);//agregar boton al panel
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton2){
+            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario);
+            Av4.setVisible(true);
+            panel.setVisible(false);
+            this.dispose();
+        }
     }
    
 }   

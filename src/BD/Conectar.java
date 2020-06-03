@@ -22,7 +22,7 @@ public class Conectar {
             Class.forName(driver);
             conn = (Connection) DriverManager.getConnection(url, user, password);
             if(conn != null){
-                System.out.println("Conexion Establecida");
+                //System.out.println("Conexion Establecida");
             }
             
             
