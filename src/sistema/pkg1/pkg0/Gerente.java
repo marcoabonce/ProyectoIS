@@ -22,7 +22,7 @@ public class Gerente extends JFrame implements ActionListener {
     JButton boton1;
     JTextField cajatexto;
     JPasswordField password;
-    
+    int IdUsuario;
 
     public Gerente() {
         this.setTitle("Sistema 1.0");//poner titulo
@@ -145,10 +145,24 @@ public class Gerente extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1) {
             Consultas consulta = new Consultas();
-                    
-            System.out.print(consulta.ConsultaLogIn(cajatexto.getText(), password.getPassword().toString()));
-            
+
+            IdUsuario = consulta.ConsultaLogIn(cajatexto.getText(), String.valueOf(password.getPassword()));
+            if (IdUsuario == 0) {
+                ErrorCredencialGerente E1 = new ErrorCredencialGerente();
+                E1.setVisible(true);
+            } else {
+                panel.setVisible(false);
+                panel2.setVisible(false);
+                InicioGerente g2 = new InicioGerente(IdUsuario);
+                g2.setVisible(true);
+                this.dispose();
+            }
+
         }
+    }
+
+    public int getIdUsuario() {
+        return IdUsuario;
     }
 
 }

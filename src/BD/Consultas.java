@@ -7,31 +7,28 @@ import java.sql.Statement;
 
 public class Consultas {
     
-    
+    Conectar con;
+    Connection conn;
     public Consultas(){
-        
+        con = new Conectar();
+        conn = con.getConnection();
     }
     
-    public Boolean ConsultaLogIn(String Usuario, String Password){
-        
-        System.out.print(Usuario + " " + Password);
-        Conectar con;
-        con = new Conectar();
-        
-        Connection conn = con.getConnection();
+    public int ConsultaLogIn(String Usuario, String Password){
         
         try{
             Statement s = conn.createStatement();
             ResultSet rs;
-            rs = s.executeQuery ("SELECT * FROM `empleado` WHERE `Correo` = '" + Usuario + "' AND `Password` = '" + Password + "' ");
-            while (rs.next())
-            {
-                System.out.println (rs.getString(1) + rs.getNString(2));
-            }
+            rs = s.executeQuery ("SELECT id_Empleado FROM `empleado` WHERE `id_Empleado` = '" + Usuario + "' AND `Password` = '" + Password + "' ");
+            
+            if(rs.next() == false){
+                return 0;
+            }else
+                return rs.getInt("id_Empleado"); 
         }catch(SQLException e){
             System.out.println("Error "+e);
+            return 0;
         }
-        return false;
     }
     
 }

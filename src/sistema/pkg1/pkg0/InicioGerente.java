@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 public class InicioGerente extends JFrame{
     public JPanel panel, panel2;
-    public InicioGerente(){
+    public InicioGerente(int IdUsuario){
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente

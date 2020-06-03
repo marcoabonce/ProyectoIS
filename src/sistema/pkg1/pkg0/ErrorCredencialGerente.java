@@ -2,6 +2,8 @@ package sistema.pkg1.pkg0;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,7 +12,9 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 
-public class ErrorCredencialGerente extends JFrame{
+public class ErrorCredencialGerente extends JFrame implements ActionListener{
+    
+    JButton boton1;
     public JPanel panel, panel2;
     public ErrorCredencialGerente(){
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
@@ -68,12 +72,21 @@ public class ErrorCredencialGerente extends JFrame{
     
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton("Aceptar");
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(150, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1) {
+            panel.setVisible(false);
+            this.dispose();
+        }
     }
    
 }

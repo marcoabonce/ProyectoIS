@@ -1,15 +1,16 @@
 package sistema.pkg1.pkg0;
 
-public class Sistema10 {
+public class Sistema10{
     public static void main(String[] args) {
-        Gerente g1 = new Gerente();
+        Gerente g1;
+        g1 = new Gerente();
         g1.setVisible(true);
         
         ErrorCredencialGerente E1 = new ErrorCredencialGerente();
         E1.setVisible(false);
         
-        InicioGerente g2 = new InicioGerente();
-        g2.setVisible(false);
+        //InicioGerente g2 = new InicioGerente();
+        //g2.setVisible(false);
         
         AvDescargarExcelVentas Av1 = new AvDescargarExcelVentas();
         Av1.setVisible(false);
@@ -36,4 +37,5 @@ public class Sistema10 {
         P1.setVisible(false);
                 
     }
+
 }
