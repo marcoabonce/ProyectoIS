@@ -1,17 +1,32 @@
 package sistema.pkg1.pkg0;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-public class DatosProveedor extends JFrame{
+public class DatosProveedor extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
-    public DatosProveedor(){
+    String IdProdProv;
+    JButton boton1;
+    Consultas con;
+    
+    public DatosProveedor(String IdProdProv){
+        this.IdProdProv = IdProdProv;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Datos");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -20,12 +35,13 @@ public class DatosProveedor extends JFrame{
         this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+       
     }
     
     private void Componente(){
         Paneles();
         Labels();
-        AreadeTexto();
+        Tabla();
         BOTON();
                
         
@@ -53,27 +69,55 @@ public class DatosProveedor extends JFrame{
         panel.add(name); //Agregamos la etiqueta al panel
     }
     
-    private void AreadeTexto() {
-        JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
-        areaTexto.setBounds(20 , 40, 450, 250);
-        areaTexto.setText("Datos de proveedor");
-        areaTexto.append("\r\n");//añade más texto al area de texto
-        areaTexto.append("Datos de proveedor");//añade más texto al area de texto
-        areaTexto.setEditable(false);//permiso de editar contenido
-        areaTexto.setBackground(Color.white);
-        areaTexto.setFont(new Font("arial", 1, 15));
-        panel.add(areaTexto);
+    private void Tabla(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Contacto");
+        
+        con = new Consultas();
+        ResultSet rs = con.ConsultarProdProv(IdProdProv);
+        try{
+            while(rs.next()){
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                String [] producto1 = {rs.getString("proveedor.id_Proveedor"), rs.getString("proveedor.Nombre"), rs.getString("producto.Descripcion"), rs.getString("proveedor.Telefono")};
+                modelo.addRow(producto1);
+            }
+        }catch(SQLException e){
+            
+        }
+               
+        //String [] producto1 = {"00", "XXX", "XXX", "55 XXXXX"};
+        
+        //modelo.addRow(producto1);
+        
+        JTable tabla = new JTable(modelo);  
+        
+        tabla.setBounds(50, 50, 400, 200 );
+        panel.add(tabla);
+        
+        JScrollPane scroll = new JScrollPane(tabla,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setBounds(50, 50, 400, 200 );
+        panel.add(scroll);
     }
     
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(150, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
-        
+        boton1.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            this.dispose();
+        }
     }
    
 }

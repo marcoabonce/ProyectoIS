@@ -1,14 +1,7 @@
 package sistema.pkg1.pkg0.Empleado;
 
-import BD.Conectar;
-import com.mysql.jdbc.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 public class Sistema {
-     public static void main(String[] args) throws SQLException {     
-        
+     public static void main(String[] args) {
         Empleado e1 = new Empleado();
         e1.setVisible(false); //cambie los colores
         
@@ -19,7 +12,7 @@ public class Sistema {
         e2.setVisible(false);
         
         Pedido P1 = new Pedido();
-        P1.setVisible(false);
+        P1.setVisible(true);
         
         AvEliminar Av2 = new AvEliminar();
         Av2.setVisible(false);

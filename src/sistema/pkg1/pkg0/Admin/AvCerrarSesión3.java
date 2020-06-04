@@ -1,4 +1,4 @@
-package sistema.pkg1.pkg0;
+package sistema.pkg1.pkg0.Admin;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,13 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionListener{
+public class AvCerrarSesión3 extends JFrame implements ActionListener{
     
     public JPanel panel, panel2;
+    String IdUsuario;
+    int Pantalla;
     JButton boton1;
     JButton boton2;
     
-    public AvDescargarAdherenciaEmpleados(){
+    public AvCerrarSesión3(String IdUsuario, int Pantalla){
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -26,15 +28,15 @@ public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionList
         this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        this.IdUsuario = IdUsuario;
+        this.Pantalla = Pantalla;
     }
     
     private void Componente(){
         Paneles();
         Labels();
         AreadeTexto();
-        BOTON();
-               
-        
+        BOTON(); 
     }
 
     private void Paneles() {
@@ -62,9 +64,7 @@ public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionList
     private void AreadeTexto() {
         JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
         areaTexto.setBounds(100 , 150, 300, 50);
-        areaTexto.setText("                ¿Desea descargar Excel de ");
-        areaTexto.append("\r\n");//añade más texto al area de texto
-        areaTexto.append("                 Adherencia de Empleados?");//añade más texto al area de texto
+        areaTexto.setText("                ¿Desea Cerrar Sesión? ");
         areaTexto.setEditable(false);//permiso de editar contenido
         areaTexto.setBackground(new java.awt.Color(250, 250, 210));
         areaTexto.setFont(new Font("arial", 1, 15));
@@ -93,10 +93,15 @@ public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionList
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
-            
-        }else if (e.getSource() == boton2){
+            Admin a1 = new Admin();
+            a1.setVisible(true);
             this.dispose();
+        }else if (e.getSource() == boton2){
+            if(Pantalla == 1){
+                InicioAdmin a2 = new InicioAdmin(IdUsuario);
+                a2.setVisible(true);
+                this.dispose();
+            }
         }
     }
-   
 }

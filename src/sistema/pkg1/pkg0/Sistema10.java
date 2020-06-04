@@ -25,7 +25,7 @@ public class Sistema10{
         //Av4.setVisible(false);
         
         //DatosProveedor D1 = new DatosProveedor();
-        //D1.setVisible(false);
+        //D1.setVisible(true);
         
         //AvPocoInventario Av5 = new AvPocoInventario();
         //Av5.setVisible(false);

@@ -46,4 +46,28 @@ public class Consultas {
         }
     }
     
+    public ResultSet ConsultarProdProv(String IdProvProd){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("select proveedor.id_Proveedor, proveedor.Nombre, producto.Descripcion, proveedor.Telefono\n" +
+"from producto inner join  proveedor on producto.id_Proveedor = proveedor.id_Proveedor\n" +
+"where proveedor.id_Proveedor = '"+IdProvProd+"' OR producto.id_Producto = '"+IdProvProd+"'");
+            
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+        
+    }
+    
 }

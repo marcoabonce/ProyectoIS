@@ -7,6 +7,8 @@ package sistema.pkg1.pkg0;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,26 +16,30 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-public class AvDescargarExcelStock extends JFrame{
+public class AvDescargarExcelStock extends JFrame implements ActionListener {
+
     public JPanel panel, panel2;
-    public AvDescargarExcelStock(){
-        this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
+    JButton boton1;
+    JButton boton2;
+
+    public AvDescargarExcelStock() {
+        this.setSize(500, 400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
         this.setResizable(false);//la ventana puede cambiar de tamaño o no 
-        Componente();        
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
+        Componente();
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
     }
-    
-    private void Componente(){
+
+    private void Componente() {
         Paneles();
         Labels();
         AreadeTexto();
         BOTON();
-               
-        
+
     }
 
     private void Paneles() {
@@ -57,10 +63,10 @@ public class AvDescargarExcelStock extends JFrame{
                                     0 sin estilo, 1 negritas, 2 cursiva, 3 negriyas y cursiva], tamaño)*/
         panel.add(name); //Agregamos la etiqueta al panel
     }
-    
+
     private void AreadeTexto() {
         JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
-        areaTexto.setBounds(100 , 150, 300, 50);
+        areaTexto.setBounds(100, 150, 300, 50);
         areaTexto.setText("                ¿Desea descargar Excel ");
         areaTexto.append("\r\n");//añade más texto al area de texto
         areaTexto.append("                 de productos en stock?");//añade más texto al area de texto
@@ -69,22 +75,33 @@ public class AvDescargarExcelStock extends JFrame{
         areaTexto.setFont(new Font("arial", 1, 15));
         panel.add(areaTexto);
     }
-    
+
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
-        
-        JButton boton2 = new JButton();
+        boton1.addActionListener(this);
+
+        boton2 = new JButton();
         boton2.setText("Cancelar");//establecemos texto al boton
         boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
     }
-   
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            
+        }else if (e.getSource() == boton2){
+            this.dispose();
+        }
+    }
+
 }

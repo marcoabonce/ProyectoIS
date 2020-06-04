@@ -1,24 +1,21 @@
-package sistema.pkg1.pkg0;
+package sistema.pkg1.pkg0.Admin;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionListener{
-    
+public class NuevoEmpleado extends JFrame{
     public JPanel panel, panel2;
-    JButton boton1;
-    JButton boton2;
-    
-    public AvDescargarAdherenciaEmpleados(){
-        this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
+    public NuevoEmpleado(){
+        this.setSize(500,500); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
         this.setResizable(false);//la ventana puede cambiar de tamaño o no 
@@ -31,10 +28,8 @@ public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionList
     private void Componente(){
         Paneles();
         Labels();
-        AreadeTexto();
         BOTON();
-               
-        
+        Tabla();
     }
 
     private void Paneles() {
@@ -47,56 +42,53 @@ public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionList
     private void Labels() {
         //Etiqueta tipo texto
         JLabel name = new JLabel(); //creación de una etiqueta
-        name.setBounds(170, 50, 150, 95);
+        name.setBounds(150, 40, 200, 35);
         name.setOpaque(true);//permiso para pintar etiqueta
-        name.setText("Aviso"); //establecemos texto en la etiqueta
+        name.setText("Agregar Empleado"); //establecemos texto en la etiqueta
         name.setHorizontalAlignment(SwingConstants.CENTER);//alineación de texto
-        name.setForeground(Color.RED);//cambiar color de letra
+        name.setForeground(Color.black);//cambiar color de letra
         name.setBackground(new java.awt.Color(250, 250, 210));//cambiar fondo de etiqueta
-        name.setFont(new Font("arial", 1, 30));/*establecemos la fuente del texto
+        name.setFont(new Font("arial", 1, 20));/*establecemos la fuente del texto
                                     (nombre del estilo, tipo [negritas, italita, etc o 
                                     0 sin estilo, 1 negritas, 2 cursiva, 3 negriyas y cursiva], tamaño)*/
         panel.add(name); //Agregamos la etiqueta al panel
     }
-    
-    private void AreadeTexto() {
-        JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
-        areaTexto.setBounds(100 , 150, 300, 50);
-        areaTexto.setText("                ¿Desea descargar Excel de ");
-        areaTexto.append("\r\n");//añade más texto al area de texto
-        areaTexto.append("                 Adherencia de Empleados?");//añade más texto al area de texto
-        areaTexto.setEditable(false);//permiso de editar contenido
-        areaTexto.setBackground(new java.awt.Color(250, 250, 210));
-        areaTexto.setFont(new Font("arial", 1, 15));
-        panel.add(areaTexto);
-    }
+   
     
     private void BOTON() {
         //Boton de texto
-        boton1 = new JButton();
+        JButton boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
-        boton1.addActionListener(this);
         
-        boton2 = new JButton();
+        JButton boton2 = new JButton();
         boton2.setText("Cancelar");//establecemos texto al boton
         boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton2);//agregar boton al panel
-        boton2.addActionListener(this);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == boton1){
-            
-        }else if (e.getSource() == boton2){
-            this.dispose();
-        }
+    
+    private void Tabla(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Contacto");
+        
+        String [] producto1 = {"000", "XXX", "55 XXXXX"};
+        
+        modelo.addRow(producto1);
+        
+        JTable tabla = new JTable(modelo);  
+        
+        tabla.setBounds(50, 150, 400, 100 );
+        panel.add(tabla);
+        
+        JScrollPane scroll = new JScrollPane(tabla,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll.setBounds(50, 150, 400, 100 );
+        panel.add(scroll);
     }
-   
 }

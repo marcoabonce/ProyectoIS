@@ -1,8 +1,11 @@
 package sistema.pkg1.pkg0;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,9 +16,19 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 
-public class Proveedor extends JFrame{
+public class Proveedor extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
-    public Proveedor(){
+    String IdUsuario;
+    JTextArea areaTexto;
+    Consultas con;
+    JButton boton1;
+    JButton boton2;
+    JButton boton3;
+    JButton boton4;
+    JTextField cajatexto;
+    
+    public Proveedor(String IdUsuario){
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -24,6 +37,9 @@ public class Proveedor extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        this.IdUsuario = IdUsuario;
+        con = new Consultas();
+        areaTexto.setText(con.ConsultarNombreGerente(IdUsuario));
     }
     
     private void Componente(){
@@ -82,7 +98,7 @@ public class Proveedor extends JFrame{
     }
     
     private void AreadeTexto() {
-        JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
+        areaTexto = new JTextArea(); //instanciamos area de texto
         areaTexto.setBounds(170 , 50, 300, 35);
         areaTexto.setText("Nombre Gerente");
         areaTexto.setEditable(false);//permiso de editar contenido
@@ -92,7 +108,7 @@ public class Proveedor extends JFrame{
     }
     
     private void CajadeTexto() {
-        JTextField cajatexto = new JTextField();
+        cajatexto = new JTextField();
         cajatexto.setBounds(520, 300, 300, 30);
         cajatexto.setText("Buscar");
         panel2.add(cajatexto);
@@ -100,33 +116,60 @@ public class Proveedor extends JFrame{
 
     private void Boton() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Home");//establecemos texto al boton
         boton1.setBounds(1090, 10, 100, 30);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cerrar Sesión");//establecemos texto al boton
         boton2.setBounds(1200, 10, 150, 30);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
         
-        JButton boton3 = new JButton();
+        boton3 = new JButton();
         boton3.setText("Buscar");//establecemos texto al boton
         boton3.setBounds(475, 405, 200, 30);//posición y tamaño boton
         boton3.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton3.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton3);//agregar boton al panel
+        boton3.addActionListener(this);
         
-        JButton boton4 = new JButton();
+        boton4 = new JButton();
         boton4.setText("Cancelar");//establecemos texto al boton
         boton4.setBounds(685, 405, 200, 30);//posición y tamaño boton
         boton4.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton4.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton4);//agregar boton al panel
+        boton4.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            panel.setVisible(false);
+            InicioGerente g2 = new InicioGerente(IdUsuario);
+            g2.setVisible(true);
+            this.dispose();
+        }else if (e.getSource() == boton2){
+            panel.setVisible(false);
+            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario, 2);
+            Av4.setVisible(true);
+            this.dispose();
+        }else if (e.getSource() == boton3){
+            DatosProveedor D1 = new DatosProveedor(cajatexto.getText());
+            D1.setVisible(true);
+        }else if (e.getSource() == boton4){
+            panel.setVisible(false);
+            InicioGerente g2 = new InicioGerente(IdUsuario);
+            g2.setVisible(true);
+            this.dispose();
+        }
     }
    
 }

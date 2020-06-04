@@ -1,7 +1,5 @@
-package sistema.pkg1.pkg0;
+package sistema.pkg1.pkg0.Admin;
 
-
-import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -14,23 +12,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import sistema.pkg1.pkg0.AvCerrarSesión;
 
-public class InicioGerente extends JFrame implements ActionListener{
+public class InicioAdmin extends JFrame implements ActionListener{
     
     public JPanel panel, panel2;
     String IdUsuario;
-    Consultas con;
-    JTextArea areaTexto;
     JButton boton1;
     JButton boton2;
     JButton boton3;
     JButton boton4;
     JButton boton5;
     JButton boton6;
+    JTextArea areaTexto;
     
-    
-    
-    public InicioGerente(String IdUsuario){
+    public InicioAdmin(String IdUsuario){
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -40,8 +36,6 @@ public class InicioGerente extends JFrame implements ActionListener{
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.IdUsuario = IdUsuario;
-        con = new Consultas();
-        areaTexto.setText(con.ConsultarNombreGerente(IdUsuario));
     }
     
     private void Componente(){
@@ -69,9 +63,9 @@ public class InicioGerente extends JFrame implements ActionListener{
     private void Labels() {
         //Etiqueta tipo texto
         JLabel name = new JLabel(); //creación de una etiqueta
-        name.setBounds(0, 0, 150, 35);
+        name.setBounds(0, 0, 200, 35);
         name.setOpaque(true);//permiso para pintar etiqueta
-        name.setText("Inicio Gerente"); //establecemos texto en la etiqueta
+        name.setText("Inicio Administrador"); //establecemos texto en la etiqueta
         name.setHorizontalAlignment(SwingConstants.CENTER);//alineación de texto
         name.setForeground(Color.black);//cambiar color de letra
         name.setBackground(new java.awt.Color(255, 99, 71));//cambiar fondo de etiqueta
@@ -81,9 +75,9 @@ public class InicioGerente extends JFrame implements ActionListener{
         panel.add(name); //Agregamos la etiqueta al panel
         
         //Etiqueta tipo Imagen
-        ImageIcon imagen = new ImageIcon("Imagenes/Gerente.png");//definir la imagen
+        ImageIcon imagen = new ImageIcon("Imagenes/admin.png");//definir la imagen
         JLabel icon = new JLabel(); //agregar una imagen
-        icon.setBounds(50, 50, 100 , 100);
+        icon.setBounds(50, 30, 100 , 150);
         icon.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(icon.getWidth(), icon.getHeight(), Image.SCALE_SMOOTH))); //imagen escalada (ancho, alto, tipo de escalado)
         panel2.add(icon);
     }
@@ -91,7 +85,7 @@ public class InicioGerente extends JFrame implements ActionListener{
     private void AreadeTexto() {
         areaTexto = new JTextArea(); //instanciamos area de texto
         areaTexto.setBounds(170 , 50, 300, 35);
-        areaTexto.setText("Sin nombre");
+        areaTexto.setText("Nombre Administrador");
         areaTexto.setEditable(false);//permiso de editar contenido
         areaTexto.setBackground(new java.awt.Color(255, 140, 0));
         areaTexto.setFont(new Font("arial", 1, 20));
@@ -117,7 +111,7 @@ public class InicioGerente extends JFrame implements ActionListener{
         boton2.addActionListener(this);
         
         boton3 = new JButton();
-        boton3.setText("Consultar stock");//establecemos texto al boton
+        boton3.setText("Productos");//establecemos texto al boton
         boton3.setBounds(520, 205, 300, 30);//posición y tamaño boton
         boton3.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton3.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
@@ -125,7 +119,7 @@ public class InicioGerente extends JFrame implements ActionListener{
         boton3.addActionListener(this);
         
         boton4 = new JButton();
-        boton4.setText("Consultar ventas del día");//establecemos texto al boton
+        boton4.setText("Gerentes");//establecemos texto al boton
         boton4.setBounds(520, 255, 300, 30);//posición y tamaño boton
         boton4.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton4.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
@@ -133,7 +127,7 @@ public class InicioGerente extends JFrame implements ActionListener{
         boton4.addActionListener(this);
         
         boton5 = new JButton();
-        boton5.setText("Consultar adherencia de empleados");//establecemos texto al boton
+        boton5.setText("Empleados");//establecemos texto al boton
         boton5.setBounds(520, 305, 300, 30);//posición y tamaño boton
         boton5.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton5.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
@@ -141,7 +135,7 @@ public class InicioGerente extends JFrame implements ActionListener{
         boton5.addActionListener(this);
         
         boton6 = new JButton();
-        boton6.setText("Contacto Proveedor");//establecemos texto al boton
+        boton6.setText("Proveedores");//establecemos texto al boton
         boton6.setBounds(520, 355, 300, 30);//posición y tamaño boton
         boton6.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton6.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
@@ -154,26 +148,25 @@ public class InicioGerente extends JFrame implements ActionListener{
         if (e.getSource() == boton1){
             
         }else if (e.getSource() == boton2){
-            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario, 1);
-            Av4.setVisible(true);
-            panel.setVisible(false);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 1);
+            Av1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton3){
-            AvDescargarExcelStock Av2 = new AvDescargarExcelStock();
-            Av2.setVisible(true);
-        }else if (e.getSource() == boton4){
-            AvDescargarExcelVentas Av1 = new AvDescargarExcelVentas();
-            Av1.setVisible(true);
-        }else if (e.getSource() == boton5){
-            AvDescargarAdherenciaEmpleados Av3 = new AvDescargarAdherenciaEmpleados();
-            Av3.setVisible(true);
-        }else if(e.getSource() == boton6){
-            Proveedor P1 = new Proveedor(IdUsuario);
+            Productos P1 = new Productos();
             P1.setVisible(true);
-            panel.setVisible(false);
+            this.dispose();
+        }else if (e.getSource() == boton4){
+            Gerentes P2 = new Gerentes();
+            P2.setVisible(true);
+            this.dispose();
+        }else if (e.getSource() == boton5){
+            Empleados P3 = new Empleados();
+            P3.setVisible(true);
+            this.dispose();
+        }else if (e.getSource() == boton6){
+            Proveedores P4 = new Proveedores();
+            P4.setVisible(true);
             this.dispose();
         }
     }
-   
-}   
-
+}

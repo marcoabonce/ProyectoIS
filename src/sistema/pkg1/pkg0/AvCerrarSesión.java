@@ -17,8 +17,9 @@ public class AvCerrarSesión extends JFrame implements ActionListener{
     JButton boton1;
     JButton boton2;
     String IdUsuario;
+    int Pantalla;
     
-    public AvCerrarSesión(String IdUsuario){
+    public AvCerrarSesión(String IdUsuario, int Pantalla){
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -28,6 +29,7 @@ public class AvCerrarSesión extends JFrame implements ActionListener{
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.IdUsuario = IdUsuario;
+        this.Pantalla = Pantalla;
     }
     
     private void Componente(){
@@ -97,8 +99,16 @@ public class AvCerrarSesión extends JFrame implements ActionListener{
             g1 = new Gerente();
             g1.setVisible(true);
         }else if (e.getSource() == boton2){
-            InicioGerente g2 = new InicioGerente(IdUsuario);
-            g2.setVisible(true);
+            if(Pantalla == 1){
+                InicioGerente g2 = new InicioGerente(IdUsuario);
+                g2.setVisible(true);
+            }else if(Pantalla == 2){
+                Proveedor P1 = new Proveedor(IdUsuario);
+                P1.setVisible(true);
+                panel.setVisible(false);
+                this.dispose();
+            }
+            
         }
         panel.setVisible(false);
         this.dispose();
