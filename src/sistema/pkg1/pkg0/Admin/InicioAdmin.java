@@ -1,5 +1,6 @@
 package sistema.pkg1.pkg0.Admin;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -25,6 +26,7 @@ public class InicioAdmin extends JFrame implements ActionListener{
     JButton boton5;
     JButton boton6;
     JTextArea areaTexto;
+    Consultas con;
     
     public InicioAdmin(String IdUsuario){
         this.setTitle("Sistema 1.0");//poner titulo
@@ -36,6 +38,8 @@ public class InicioAdmin extends JFrame implements ActionListener{
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.IdUsuario = IdUsuario;
+        con = new Consultas();
+        areaTexto.setText(con.ConsultarNombreEmpleado(IdUsuario));
     }
     
     private void Componente(){
@@ -43,8 +47,6 @@ public class InicioAdmin extends JFrame implements ActionListener{
         Labels();
         AreadeTexto();
         Boton();
-               
-        
     }
 
     private void Paneles() {
@@ -152,19 +154,19 @@ public class InicioAdmin extends JFrame implements ActionListener{
             Av1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton3){
-            Productos P1 = new Productos();
+            Productos P1 = new Productos(IdUsuario);
             P1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton4){
-            Gerentes P2 = new Gerentes();
+            Gerentes P2 = new Gerentes(IdUsuario);
             P2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton5){
-            Empleados P3 = new Empleados();
+            Empleados P3 = new Empleados(IdUsuario);
             P3.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton6){
-            Proveedores P4 = new Proveedores();
+            Proveedores P4 = new Proveedores(IdUsuario);
             P4.setVisible(true);
             this.dispose();
         }

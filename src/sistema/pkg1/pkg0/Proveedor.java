@@ -39,7 +39,7 @@ public class Proveedor extends JFrame implements ActionListener{
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.IdUsuario = IdUsuario;
         con = new Consultas();
-        areaTexto.setText(con.ConsultarNombreGerente(IdUsuario));
+        areaTexto.setText(con.ConsultarNombreEmpleado(IdUsuario));
     }
     
     private void Componente(){

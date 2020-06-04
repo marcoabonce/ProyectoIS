@@ -146,7 +146,7 @@ public class Admin extends JFrame implements ActionListener {
         if (e.getSource() == boton1) {
             Consultas consulta = new Consultas();
 
-            IdUsuario = consulta.ConsultaLogIn(cajatexto.getText(), String.valueOf(password.getPassword()));
+            IdUsuario = consulta.ConsultaLogInAdmin(cajatexto.getText(), String.valueOf(password.getPassword()));
             if (IdUsuario == "404-Not") {
                 ErrorCredencialGerente E1 = new ErrorCredencialGerente();
                 E1.setVisible(true);

@@ -14,23 +14,25 @@ public class Consultas {
         conn = con.getConnection();
     }
     
-    public String ConsultaLogIn(String Usuario, String Password){
+    public String ConsultaLogInGerente(String Usuario, String Password){
         try{
             Statement s = conn.createStatement();
             ResultSet rs;
-            rs = s.executeQuery ("SELECT id_Empleado FROM `empleado` WHERE `id_Empleado` = '" + Usuario + "' AND `Password` = '" + Password + "' ");
+            rs = s.executeQuery ("SELECT empleado.id_Empleado\n" +
+"from empleado INNER JOIN gerente ON empleado.id_Empleado = gerente.id_Empleado\n" +
+"where empleado.id_Empleado = '"+Usuario+"' AND empleado.Password = '"+Password+"' ");
             
             if(rs.next() == false){
                 return "404-Not";
             }else
-                return rs.getString("id_Empleado"); 
+                return rs.getString("empleado.id_Empleado"); 
         }catch(SQLException e){
             System.out.println("Error "+e);
             return "404-Not";
         }
     }
     
-    public String ConsultarNombreGerente(String IdUsuario){
+    public String ConsultarNombreEmpleado(String IdUsuario){
         try{
             Statement s = conn.createStatement();
             ResultSet rs;
@@ -52,8 +54,8 @@ public class Consultas {
             Statement s = conn.createStatement();
             
             rs = s.executeQuery ("select proveedor.id_Proveedor, proveedor.Nombre, producto.Descripcion, proveedor.Telefono\n" +
-"from producto inner join  proveedor on producto.id_Proveedor = proveedor.id_Proveedor\n" +
-"where proveedor.id_Proveedor = '"+IdProvProd+"' OR producto.id_Producto = '"+IdProvProd+"'");
+                                 "from producto inner join  proveedor on producto.id_Proveedor = proveedor.id_Proveedor\n" +
+                                 "where proveedor.id_Proveedor = '"+IdProvProd+"' OR producto.id_Producto = '"+IdProvProd+"'");
             
             return rs;
             /*if(rs.next() == false){
@@ -67,7 +69,46 @@ public class Consultas {
             System.out.println("Error "+e);
             return rs;
         }
-        
+    }
+    
+    public String ConsultaLogInAdmin(String Usuario, String Password){
+        try{
+            Statement s = conn.createStatement();
+            ResultSet rs;
+            rs = s.executeQuery ("SELECT empleado.id_Empleado\n" +
+                                 "from empleado\n" +
+                                 "where empleado.id_Empleado = '"+Usuario+"' AND empleado.Password = '"+Password+"' AND empleado.Puesto = 'Admin'");
+            
+            if(rs.next() == false){
+                return "404-Not";
+            }else
+                return rs.getString("empleado.id_Empleado"); 
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return "404-Not";
+        }
+    }
+    
+    public ResultSet ConsultarAllProd(){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("select *\n" +
+                                 "from producto \n");
+            
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
     }
     
 }
