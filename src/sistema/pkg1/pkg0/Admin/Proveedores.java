@@ -1,11 +1,14 @@
 package sistema.pkg1.pkg0.Admin;
 
+import BD.Bajas;
 import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,8 +34,13 @@ public class Proveedores extends JFrame implements ActionListener {
     JButton boton6;
     String IdUsuario;
     Consultas con;
+    Bajas baja;
+    JTextField cajatexto;
+    JTable tabla;
+    String IdProv;
     
-    public Proveedores(String IdUsuario){
+    public Proveedores(String IdUsuario, String IdProv){
+        this.IdProv = IdProv;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -44,6 +52,7 @@ public class Proveedores extends JFrame implements ActionListener {
         this.IdUsuario = IdUsuario;
         con = new Consultas();
         areaTexto.setText(con.ConsultarNombreEmpleado(IdUsuario));
+        baja = new Bajas();
     }
     
     private void Componente(){
@@ -104,9 +113,9 @@ public class Proveedores extends JFrame implements ActionListener {
     }
     
     private void Producto(){
-        JTextField cajatexto = new JTextField();
+        cajatexto = new JTextField();
         cajatexto.setBounds(890, 255, 200, 30);
-        cajatexto.setText("ID Proveedor");
+        cajatexto.setText("");
         panel2.add(cajatexto);
     }
     
@@ -180,11 +189,23 @@ public class Proveedores extends JFrame implements ActionListener {
         modelo.addColumn("Producto");
         modelo.addColumn("Contacto");
         
-        String [] gerente1 = {"000", "XXX", "XXX", "55 XXXXXX"};
+        con = new Consultas();
+        ResultSet rs;
+        if(IdProv == "0"){
+            rs = con.ConsultarAllProv();
+        }else 
+            rs = con.ConsultarProv(IdProv);
         
-        modelo.addRow(gerente1);
+        try{
+            while(rs.next()){
+                String [] producto1 = {rs.getString("proveedor.id_Proveedor"),rs.getString("proveedor.Nombre"),rs.getString("producto.Descripcion"), rs.getString("proveedor.Telefono")};
+                modelo.addRow(producto1);
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
         
-        JTable tabla = new JTable(modelo);  
+        tabla = new JTable(modelo);  
         
         tabla.setBounds(100, 200, 400, 250 );
         panel2.add(tabla);
@@ -201,18 +222,37 @@ public class Proveedores extends JFrame implements ActionListener {
             a2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 1);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 5);
             Av1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton3){
             NuevoProveedor N4 = new NuevoProveedor();
             N4.setVisible(true);
         }else if (e.getSource() == boton4){
-            
+            this.dispose();
+            Proveedores P4 = new Proveedores(IdUsuario, cajatexto.getText());
+            P4.setVisible(true);
         }else if (e.getSource() == boton5){
-            
+            Boolean x;
+            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+            tabla.getSelectedRow();
+            x = baja.DeleteProv((String)mod.getValueAt(tabla.getSelectedRow(), 0));
+            if(x)
+                System.out.println("Correcto");
+            else 
+                System.out.println("Incorrecto");
+            this.dispose();
+            Proveedores P4 = new Proveedores(IdUsuario, "0");
+            P4.setVisible(true);
         }else if (e.getSource() == boton6){
-            
+            Boolean x = baja.DeleteAllProv();
+            if(x)
+                System.out.println("Correcto");
+            else
+                System.out.println("Incorrecto");
+            this.dispose();
+            Proveedores P4 = new Proveedores(IdUsuario, "0");
+            P4.setVisible(true);
         }
     }
 }

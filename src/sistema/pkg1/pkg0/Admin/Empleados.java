@@ -1,11 +1,14 @@
 package sistema.pkg1.pkg0.Admin;
 
+import BD.Bajas;
 import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,8 +34,13 @@ public class Empleados extends JFrame implements ActionListener {
     JButton boton6;
     String IdUsuario;
     Consultas con;
+    String IdEmp;
+    JTextField cajatexto;
+    JTable tabla;
+    Bajas baja;
     
-    public Empleados(String IdUsuario){
+    public Empleados(String IdUsuario, String IdEmp){
+        this.IdEmp = IdEmp;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -43,6 +51,7 @@ public class Empleados extends JFrame implements ActionListener {
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.IdUsuario = IdUsuario;
         con = new Consultas();
+        baja = new Bajas();
         areaTexto.setText(con.ConsultarNombreEmpleado(IdUsuario));
     }
     
@@ -104,9 +113,9 @@ public class Empleados extends JFrame implements ActionListener {
     }
     
     private void Producto(){
-        JTextField cajatexto = new JTextField();
+        cajatexto = new JTextField();
         cajatexto.setBounds(890, 255, 200, 30);
-        cajatexto.setText("ID Empleado");
+        cajatexto.setText("");
         panel2.add(cajatexto);
     }
     
@@ -179,11 +188,23 @@ public class Empleados extends JFrame implements ActionListener {
         modelo.addColumn("Nombre");
         modelo.addColumn("Contacto");
         
-        String [] gerente1 = {"000", "XXX", "55 XXXXXX"};
+        con = new Consultas();
+        ResultSet rs;
+        if(IdEmp == "0"){
+            rs = con.ConsultarAllEmp();
+        }else 
+            rs = con.ConsultarEmp(IdEmp);
         
-        modelo.addRow(gerente1);
+        try{
+            while(rs.next()){
+                String [] producto1 = {rs.getString("id_Empleado"),rs.getString("Nombre"),rs.getString("Telefono")};
+                modelo.addRow(producto1);
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
         
-        JTable tabla = new JTable(modelo);  
+        tabla = new JTable(modelo);  
         
         tabla.setBounds(100, 200, 400, 250 );
         panel2.add(tabla);
@@ -200,18 +221,37 @@ public class Empleados extends JFrame implements ActionListener {
             a2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 1);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 4);
             Av1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton3){
             NuevoEmpleado N3 = new NuevoEmpleado();
             N3.setVisible(true);
         }else if (e.getSource() == boton4){
-            
+            this.dispose();
+            Empleados P3 = new Empleados(IdUsuario, cajatexto.getText());
+            P3.setVisible(true);
         }else if (e.getSource() == boton5){
-            
+            Boolean x;
+            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+            tabla.getSelectedRow();
+            x = baja.DeleteEmp((String)mod.getValueAt(tabla.getSelectedRow(), 0));
+            if(x)
+                System.out.println("Correcto");
+            else 
+                System.out.println("Incorrecto");
+            this.dispose();
+            Empleados P3 = new Empleados(IdUsuario, "0");
+            P3.setVisible(true);
         }else if (e.getSource() == boton6){
-            
+            Boolean x = baja.DeleteAllEmp();
+            if(x)
+                System.out.println("Correcto");
+            else
+                System.out.println("Incorrecto");
+            this.dispose();
+            Empleados P3 = new Empleados(IdUsuario, "0");
+            P3.setVisible(true);
         }
     }
 }

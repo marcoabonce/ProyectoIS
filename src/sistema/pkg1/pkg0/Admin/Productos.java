@@ -191,7 +191,7 @@ public class Productos extends JFrame implements ActionListener {
         
         con = new Consultas();
         ResultSet rs;
-        if(IdProd == "0" || IdProd == ""){
+        if(IdProd == "0"){
             rs = con.ConsultarAllProd();
         }else 
             rs = con.ConsultarProd(IdProd);
@@ -223,7 +223,7 @@ public class Productos extends JFrame implements ActionListener {
             a2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 1);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 2);
             Av1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton3){

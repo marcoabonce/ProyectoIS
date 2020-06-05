@@ -101,6 +101,22 @@ public class AvCerrarSesión3 extends JFrame implements ActionListener{
                 InicioAdmin a2 = new InicioAdmin(IdUsuario);
                 a2.setVisible(true);
                 this.dispose();
+            }else if(Pantalla == 2){
+                Productos P1 = new Productos(IdUsuario, "0");
+                P1.setVisible(true);
+                this.dispose();
+            }else if(Pantalla == 3){
+                Gerentes P2 = new Gerentes(IdUsuario, "0");
+                P2.setVisible(true);
+                this.dispose();
+            }else if(Pantalla == 4){
+                Empleados P3 = new Empleados(IdUsuario, "0");
+                P3.setVisible(true);
+                this.dispose();
+            }else if(Pantalla == 5){
+                Proveedores P4 = new Proveedores(IdUsuario, "0");
+                P4.setVisible(true);
+                this.dispose();
             }
         }
     }

@@ -57,4 +57,40 @@ public class Altas {
             return false;
         }
     }
+    
+    public Boolean InsertEmp(String id_Empleado, String	Nombre, String Telefono, String Correo, char Turno, String Puesto, String Fecha_ingreso, String	Password) {
+        try {
+            Statement s = conn.createStatement();
+                int x;
+                x = s.executeUpdate("INSERT INTO `empleado` (`id_Empleado`, `Nombre`, `Telefono`, `Correo`, `Turno`, `Puesto`, `Fecha_ingreso`, `Password`) "
+                                   +"VALUES ('"+id_Empleado+"', '"+Nombre+"', '"+Telefono+"', '"+Correo+"', '"+Turno+"', '"+Puesto+"', '"+Fecha_ingreso+"', '"+Password+"')");
+                if (x == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            
+        } catch (SQLException e) {
+            System.out.println("Error " + e);
+            return false;
+        }
+    }
+    
+    public Boolean InsertProv(String id_Proveedor, String Nombre, String Correo, String	Telefono) {
+        try {
+            Statement s = conn.createStatement();
+                int x;
+                x = s.executeUpdate("INSERT INTO `proveedor` (`id_Proveedor`, `Nombre`, `Correo`, `Telefono`) "
+                                   +"VALUES ('"+id_Proveedor+"', '"+Nombre+"', '"+Correo+"', '"+Telefono+"')");
+                if (x == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            
+        } catch (SQLException e) {
+            System.out.println("Error " + e);
+            return false;
+        }
+    }
 }

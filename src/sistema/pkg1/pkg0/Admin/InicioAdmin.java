@@ -162,11 +162,11 @@ public class InicioAdmin extends JFrame implements ActionListener{
             P2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton5){
-            Empleados P3 = new Empleados(IdUsuario);
+            Empleados P3 = new Empleados(IdUsuario, "0");
             P3.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton6){
-            Proveedores P4 = new Proveedores(IdUsuario);
+            Proveedores P4 = new Proveedores(IdUsuario, "0");
             P4.setVisible(true);
             this.dispose();
         }

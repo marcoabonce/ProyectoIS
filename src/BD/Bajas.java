@@ -74,5 +74,65 @@ public class Bajas {
             return false;
         }
     }
+    
+    public Boolean DeleteEmp(String Id_Empleado){
+        try{
+            Statement s = conn.createStatement();        
+            int x;
+            x = s.executeUpdate("DELETE FROM `empleado` WHERE `id_Empleado` = '"+Id_Empleado+"'");
+            if(x == 1)
+                return true;
+            else 
+                return false;
+        }catch(SQLException e){
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public Boolean DeleteAllEmp(){
+        try{
+            Statement s = conn.createStatement();        
+            int x;
+            x = s.executeUpdate("DELETE FROM `empleado`");
+            if(x == 1)
+                return true;
+            else 
+                return false;
+        }catch(SQLException e){
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public Boolean DeleteProv(String Id_Proveedor){
+        try{
+            Statement s = conn.createStatement();        
+            int x;
+            x = s.executeUpdate("DELETE FROM `proveedor` WHERE `id_Proveedor` = '"+Id_Proveedor+"'");
+            if(x == 1)
+                return true;
+            else 
+                return false;
+        }catch(SQLException e){
+            System.out.println(e);
+            return false;
+        }
+    }
+    
+    public Boolean DeleteAllProv(){
+        try{
+            Statement s = conn.createStatement();        
+            int x;
+            x = s.executeUpdate("DELETE FROM `proveedor`");
+            if(x == 1)
+                return true;
+            else 
+                return false;
+        }catch(SQLException e){
+            System.out.println(e);
+            return false;
+        }
+    }
 }
 

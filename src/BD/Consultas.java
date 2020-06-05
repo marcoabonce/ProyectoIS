@@ -178,4 +178,99 @@ public class Consultas {
         }
     }
     
+    public ResultSet ConsultarAllEmp(){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT id_Empleado, Nombre, Telefono\n" +
+                                 "FROM empleado");
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public ResultSet ConsultarEmp(String IdEmp){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT id_Empleado, Nombre, Telefono "
+                                +"FROM empleado "
+                                +"WHERE empleado.id_Empleado = '"+IdEmp+"' ");
+            
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public ResultSet ConsultarAllProv(){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT proveedor.id_Proveedor, proveedor.Nombre, producto.Descripcion, proveedor.Telefono\n" +
+                                 "FROM proveedor LEFT JOIN producto ON proveedor.id_Proveedor = producto.id_Proveedor\n" +
+                                 "ORDER BY proveedor.id_Proveedor");
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public ResultSet ConsultarProv(String IdProv){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT proveedor.id_Proveedor, proveedor.Nombre, producto.Descripcion, proveedor.Telefono\n" +
+                                 "FROM proveedor LEFT JOIN producto ON proveedor.id_Proveedor = producto.id_Proveedor"
+                                +"WHERE proveedor.id_Proveedor = '"+IdProv+"' ");
+            
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 }
