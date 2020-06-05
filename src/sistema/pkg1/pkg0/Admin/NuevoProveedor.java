@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import static javax.swing.JTable.AUTO_RESIZE_OFF;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -76,15 +77,14 @@ public class NuevoProveedor extends JFrame{
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
-        modelo.addColumn("Producto");
-        modelo.addColumn("Contacto");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Telefono");
         
-        String [] producto1 = {"000", "XXX","XXX", "55 XXXXX"};
+        String [] producto1 = {"000", "XXX","XXxxxX@xxxxx.com", "55 XXXXX"};
         
         modelo.addRow(producto1);
         
         JTable tabla = new JTable(modelo);  
-        
         tabla.setBounds(50, 150, 400, 100 );
         panel.add(tabla);
         

@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import static javax.swing.JTable.AUTO_RESIZE_OFF;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -76,19 +77,24 @@ public class NuevoEmpleado extends JFrame{
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
-        modelo.addColumn("Contacto");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Turno");
+        modelo.addColumn("Puesto");
+        modelo.addColumn("Fecha de ingreso");
+        modelo.addColumn("Password");
         
-        String [] producto1 = {"000", "XXX", "55 XXXXX"};
+        String [] producto1 = {"000", "XXX", "55 XXXXX", "xxx_xxx@XXXXX.com", "XXXXXXXX", "XXXXXX", "XX/XX/XXXX", "XXXXXXXXXX"};
         
         modelo.addRow(producto1);
         
         JTable tabla = new JTable(modelo);  
-        
-        tabla.setBounds(50, 150, 400, 100 );
+        tabla.setAutoResizeMode(AUTO_RESIZE_OFF);
+        tabla.setBounds(25, 150, 450, 100 );
         panel.add(tabla);
         
         JScrollPane scroll = new JScrollPane(tabla,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setBounds(50, 150, 400, 100 );
+        scroll.setBounds(25, 150, 450, 100 );
         panel.add(scroll);
     }
 }

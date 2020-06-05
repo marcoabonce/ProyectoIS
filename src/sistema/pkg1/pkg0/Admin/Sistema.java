@@ -18,7 +18,7 @@ public class Sistema {
         //P1.setVisible(true);
         
         //NuevoProducto N1 = new NuevoProducto();
-        //N1.setVisible(false);
+        //N1.setVisible(true);
         
         //Gerentes P2 = new Gerentes();
         //P2.setVisible(false);

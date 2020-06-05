@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import static javax.swing.JTable.AUTO_RESIZE_OFF;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -75,20 +76,18 @@ public class NuevoGerente extends JFrame{
     private void Tabla(){
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Contacto");
         
-        String [] producto1 = {"000", "XXX", "55 XXXXX"};
+        String [] producto1 = {"000"};
         
         modelo.addRow(producto1);
         
         JTable tabla = new JTable(modelo);  
         
-        tabla.setBounds(50, 150, 400, 100 );
+        tabla.setBounds(200, 150, 100, 100 );
         panel.add(tabla);
         
         JScrollPane scroll = new JScrollPane(tabla,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setBounds(50, 150, 400, 100 );
+        scroll.setBounds(200, 150, 100, 100 );
         panel.add(scroll);
     }
 }
