@@ -1,5 +1,6 @@
 package sistema.pkg1.pkg0.Admin;
 
+import BD.Bajas;
 import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
@@ -34,8 +35,14 @@ public class Productos extends JFrame implements ActionListener {
     JButton boton6;
     String IdUsuario;
     Consultas con;
+    Bajas bajas;
+    String IdProd;
+    JTextField cajatexto;
+    JTable tabla;
     
-    public Productos(String IdUsuario){
+    public Productos(String IdUsuario, String IdProd){
+        this.IdUsuario = IdUsuario;
+        this.IdProd = IdProd;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -44,8 +51,8 @@ public class Productos extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
-        this.IdUsuario = IdUsuario;
         con = new Consultas();
+        bajas = new Bajas();
         areaTexto.setText(con.ConsultarNombreEmpleado(IdUsuario));
     }
     
@@ -107,9 +114,9 @@ public class Productos extends JFrame implements ActionListener {
     }
     
     private void Producto(){
-        JTextField cajatexto = new JTextField();
+        cajatexto = new JTextField();
         cajatexto.setBounds(890, 255, 200, 30);
-        cajatexto.setText("ID producto");
+        cajatexto.setText("");
         panel2.add(cajatexto);
     }
     
@@ -183,22 +190,23 @@ public class Productos extends JFrame implements ActionListener {
         modelo.addColumn("Precio");
         
         con = new Consultas();
-        ResultSet rs = con.ConsultarAllProd();
+        ResultSet rs;
+        if(IdProd == "0" || IdProd == ""){
+            rs = con.ConsultarAllProd();
+        }else 
+            rs = con.ConsultarProd(IdProd);
+        
         try{
             while(rs.next()){
-                System.out.println(rs.getString("id_Producto")+rs.getString("Descripcion")+rs.getFloat("Costo"));
+                //System.out.println(rs.getString("id_Producto")+rs.getString("Descripcion")+rs.getFloat("Costo"));
                 String [] producto1 = {rs.getString("id_Producto"),rs.getString("Descripcion"),String.valueOf(rs.getFloat("Costo"))};
                 modelo.addRow(producto1);
             }
         }catch(SQLException e){
             System.out.println(e);
         }
-        
-        String [] producto1 = {"000", "XXX", "$ XXX"};
-        
-        modelo.addRow(producto1);
-        
-        JTable tabla = new JTable(modelo);  
+                
+        tabla = new JTable(modelo);  
         
         tabla.setBounds(100, 200, 400, 250 );
         panel2.add(tabla);
@@ -222,11 +230,31 @@ public class Productos extends JFrame implements ActionListener {
             NuevoProducto N1 = new NuevoProducto();
             N1.setVisible(true);
         }else if (e.getSource() == boton4){
-            
+            this.dispose();
+            Productos P1;
+            P1 = new Productos(IdUsuario, cajatexto.getText());
+            P1.setVisible(true);
         }else if (e.getSource() == boton5){
-            
+            Boolean x;
+            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();
+            tabla.getSelectedRow();
+            x = bajas.DeleteProd((String)mod.getValueAt(tabla.getSelectedRow(), 0));
+            if(x)
+                System.out.println("Correcto");
+            else 
+                System.out.println("Incorrecto");
+            this.dispose();
+            Productos P1 = new Productos(IdUsuario, "0");
+            P1.setVisible(true);
         }else if (e.getSource() == boton6){
-            
+            Boolean x = bajas.DeleteAllProd();
+            if(x)
+                System.out.println("Correcto");
+            else
+                System.out.println("Incorrecto");
+            this.dispose();
+            Productos P1 = new Productos(IdUsuario, "0");
+            P1.setVisible(true);
         }
     }
 }

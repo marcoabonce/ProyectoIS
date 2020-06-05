@@ -14,14 +14,14 @@ public class Sistema {
         //AvEliminar Av2 = new AvEliminar();
         //Av2.setVisible(false);
         
-        //Productos P1 = new Productos();
+        //Productos P1 = new Productos("", "0");
         //P1.setVisible(true);
         
-        //NuevoProducto N1 = new NuevoProducto();
+        //NuevoProducto N1 = new NuevoProducto  ();
         //N1.setVisible(true);
         
-        //Gerentes P2 = new Gerentes();
-        //P2.setVisible(false);
+        Gerentes P2 = new Gerentes("", "0");
+        P2.setVisible(true);
         
         //NuevoGerente N2 = new NuevoGerente();
         //N2.setVisible(false);

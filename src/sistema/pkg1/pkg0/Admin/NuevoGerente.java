@@ -1,7 +1,10 @@
 package sistema.pkg1.pkg0.Admin;
 
+import BD.Altas;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,8 +16,14 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-public class NuevoGerente extends JFrame{
+public class NuevoGerente extends JFrame implements ActionListener {
+    
     public JPanel panel, panel2;
+    JButton boton1;
+    JButton boton2;
+    Altas alta;
+    JTable tabla;
+    
     public NuevoGerente(){
         this.setSize(500,500); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
@@ -24,6 +33,7 @@ public class NuevoGerente extends JFrame{
         this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        alta = new Altas();
     }
     
     private void Componente(){
@@ -58,19 +68,21 @@ public class NuevoGerente extends JFrame{
     
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cancelar");//establecemos texto al boton
         boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
     }
     
     private void Tabla(){
@@ -81,7 +93,7 @@ public class NuevoGerente extends JFrame{
         
         modelo.addRow(producto1);
         
-        JTable tabla = new JTable(modelo);  
+        tabla = new JTable(modelo);  
         
         tabla.setBounds(200, 150, 100, 100 );
         panel.add(tabla);
@@ -89,5 +101,20 @@ public class NuevoGerente extends JFrame{
         JScrollPane scroll = new JScrollPane(tabla,ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setBounds(200, 150, 100, 100 );
         panel.add(scroll);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            DefaultTableModel mod = (DefaultTableModel) tabla.getModel();  
+            System.out.println((String) mod.getValueAt(0, 0));
+            if(alta.InsertGer((String) mod.getValueAt(0, 0)))
+                System.out.println("Correcto");
+            else
+                System.out.println("Incorrecto");
+            this.dispose();
+        }else if (e.getSource() == boton2){
+            this.dispose();
+        }
     }
 }

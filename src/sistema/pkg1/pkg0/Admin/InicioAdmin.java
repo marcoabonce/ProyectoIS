@@ -154,11 +154,11 @@ public class InicioAdmin extends JFrame implements ActionListener{
             Av1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton3){
-            Productos P1 = new Productos(IdUsuario);
+            Productos P1 = new Productos(IdUsuario, "0");
             P1.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton4){
-            Gerentes P2 = new Gerentes(IdUsuario);
+            Gerentes P2 = new Gerentes(IdUsuario, "0");
             P2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton5){

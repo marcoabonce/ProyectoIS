@@ -111,4 +111,71 @@ public class Consultas {
         }
     }
     
+    public ResultSet ConsultarProd(String IdProd){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("select *\n" +
+                                 "from producto "+
+                                 "where id_Producto = '"+IdProd+"'\n");
+            
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public ResultSet ConsultarAllGer(){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT empleado.id_Empleado, empleado.Nombre, empleado.Telefono\n" +
+                                 "FROM gerente INNER JOIN empleado on gerente.id_Empleado = empleado.id_Empleado");
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public ResultSet ConsultarGer(String IdGer){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT empleado.id_Empleado, empleado.Nombre, empleado.Telefono "
+                    + "FROM gerente INNER JOIN empleado on gerente.id_Empleado = empleado.id_Empleado "
+                    + "WHERE empleado.id_Empleado = '"+IdGer+"' ");
+            
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
 }
