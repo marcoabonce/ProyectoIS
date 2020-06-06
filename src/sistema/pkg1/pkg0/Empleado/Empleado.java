@@ -1,8 +1,11 @@
 package sistema.pkg1.pkg0.Empleado;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,9 +14,16 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import sistema.pkg1.pkg0.ErrorCredencialGerente;
 
-public class Empleado extends JFrame{
+public class Empleado extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
+    JButton boton1;
+    JTextField cajatexto;
+    JPasswordField password;
+    String IdUsuario;
+    
     public Empleado(){
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
@@ -107,27 +117,43 @@ public class Empleado extends JFrame{
     }
     
     private void Credencial() {
-        JTextField cajatexto = new JTextField();
+        cajatexto = new JTextField();
         cajatexto.setBounds(590, 255, 200, 20);
-        cajatexto.setText("hola");
+        cajatexto.setText("");
         panel2.add(cajatexto);
     }
 
     private void Contraseña() {
-        JPasswordField password = new JPasswordField();
+        password = new JPasswordField();
         password.setBounds(590, 305, 200, 20);
-        password.setText("CONTRASEÑA");
+        password.setText("");
         panel2.add(password);
     }
 
     private void Boton() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Ingresar");//establecemos texto al boton
         boton1.setBounds(590, 405, 200, 30);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
     }
-   
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1) {
+            Consultas consulta = new Consultas();
+            IdUsuario = consulta.ConsultaLogInEmpleado(cajatexto.getText(), String.valueOf(password.getPassword()));
+            if (IdUsuario == "404-Not") {
+                ErrorCredencialGerente E1 = new ErrorCredencialGerente();
+                E1.setVisible(true);
+            } else {
+                InicioEmpleado e2 = new InicioEmpleado(IdUsuario);
+                e2.setVisible(true);
+                this.dispose();
+            }
+        }
+    }
 }

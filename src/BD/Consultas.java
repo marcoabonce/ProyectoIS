@@ -267,10 +267,37 @@ public class Consultas {
         }
     }
     
+    public String ConsultaLogInEmpleado(String Usuario, String Password){
+        try{
+            Statement s = conn.createStatement();
+            ResultSet rs;
+            rs = s.executeQuery ("SELECT id_Empleado\n" +
+                                 "from empleado\n" +
+                                 "where id_Empleado = '"+Usuario+"' AND Password = '"+Password+"'");
+            
+            if(rs.next() == false){
+                return "404-Not";
+            }else
+                return rs.getString("id_Empleado"); 
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return "404-Not";
+        }
+    }
     
-    
-    
-    
-    
+    public ResultSet ConsultaVentaProd(String IdProd){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            rs = s.executeQuery ("SELECT id_Producto, Descripcion, Costo "
+                                +"FROM producto "
+                                +"WHERE id_Producto = '"+IdProd+"' ");
+            
+            return rs;
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
     
 }

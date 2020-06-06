@@ -24,8 +24,8 @@ public class Sistema10{
         //AvCerrarSesión Av4 = new AvCerrarSesión();
         //Av4.setVisible(false);
         
-        //DatosProveedor D1 = new DatosProveedor();
-        //D1.setVisible(true);
+        DatosProveedor D1 = new DatosProveedor("");
+        D1.setVisible(true);
         
         //AvPocoInventario Av5 = new AvPocoInventario();
         //Av5.setVisible(false);

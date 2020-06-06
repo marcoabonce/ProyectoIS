@@ -1,18 +1,37 @@
 package sistema.pkg1.pkg0.Empleado;
 
+import BD.Actualizaciones;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-public class AvCobrar extends JFrame{
+public class AvCobrar extends JFrame implements ActionListener, KeyListener{
+    
     public JPanel panel, panel2;
-    public AvCobrar(){
+    JTable tabla;
+    JFrame frame;
+    JButton boton1;
+    JButton boton2;
+    JTextField cajatexto;
+    JTextField cajatexto2;
+    JTextArea total;
+    Actualizaciones act;
+    
+    public AvCobrar(JTable tabla, JFrame frame){
+        this.frame = frame;
+        this.tabla = tabla;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -21,6 +40,7 @@ public class AvCobrar extends JFrame{
         this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        act = new Actualizaciones();
     }
     
     private void Componente(){
@@ -78,9 +98,10 @@ public class AvCobrar extends JFrame{
         areaTexto2.setFont(new Font("arial", 1, 20));
         panel.add(areaTexto2);
         
-        JTextArea total = new JTextArea(); //instanciamos area de texto
+        total = new JTextArea(); //instanciamos area de texto
         total.setBounds(250 , 140, 100, 40);
-        total.setText("$ TOTAL");
+        
+        total.setText("$"+ObtTotal());
         total.setEditable(false);//permiso de editar contenido
         total.setBackground(new java.awt.Color(250, 250, 210));
         total.setFont(new Font("arial", 1, 25));
@@ -88,31 +109,91 @@ public class AvCobrar extends JFrame{
     }
     
     private void CajadeTexto(){
-        JTextField cajatexto = new JTextField();
+        cajatexto = new JTextField();
         cajatexto.setBounds(50 , 230, 100, 30);
-        cajatexto.setText("Recibido");
+        cajatexto.setText("");
         panel.add(cajatexto);
+        cajatexto.addKeyListener(this);
         
-        JTextField cajatexto2 = new JTextField();
+        cajatexto2 = new JTextField();
         cajatexto2.setBounds(350 , 230, 100, 30);
-        cajatexto2.setText("Cambio");
+        cajatexto2.setText("");
         panel.add(cajatexto2);
     }
     
+    
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cancelar");//establecemos texto al boton
         boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
+    }
+
+    public float ObtTotal(){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        float resultado = 0;
+        for(int i=0;i<modelo.getRowCount();i++){
+            resultado+=Float.parseFloat((String) modelo.getValueAt(i, 2));
+        }
+        return resultado;
+    }
+    
+    public Boolean Venta(){
+        Boolean z = false;
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        for(int i=0;i<modelo.getRowCount();i++){
+            z = act.ActInv((String) modelo.getValueAt(i, 0));
+            if(!z)
+                return z;
+        }
+        return z;
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            float cambio;
+            cambio = Float.parseFloat(cajatexto.getText()) - ObtTotal();
+            if(cambio >= 0)
+                if(!Venta())
+                    System.out.println("Error");
+                else{
+                    
+                }
+            this.dispose();
+        }else if (e.getSource() == boton2){
+            this.dispose();
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        float cambio;
+        if(!cajatexto.getText().isEmpty()){
+            cambio = Float.parseFloat(cajatexto.getText()) - ObtTotal();
+            cajatexto2.setText("$"+cambio);
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
     }
 }

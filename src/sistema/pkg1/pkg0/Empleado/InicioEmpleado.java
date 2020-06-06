@@ -1,8 +1,11 @@
 package sistema.pkg1.pkg0.Empleado;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,9 +14,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-public class InicioEmpleado extends JFrame{
+public class InicioEmpleado extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
-    public InicioEmpleado(){
+    JButton boton1;
+    JButton boton2;
+    JButton boton3;
+    JTextArea areaTexto;
+    Consultas con;
+    String IdUsuario;
+    
+    public InicioEmpleado(String IdUsuario){
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -22,6 +33,9 @@ public class InicioEmpleado extends JFrame{
         this.setDefaultCloseOperation(EXIT_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
+        con = new Consultas();
+        areaTexto.setText(con.ConsultarNombreEmpleado(IdUsuario));
+        this.IdUsuario = IdUsuario;
     }
     
     private void Componente(){
@@ -69,9 +83,9 @@ public class InicioEmpleado extends JFrame{
     }
     
     private void AreadeTexto() {
-        JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
+        areaTexto = new JTextArea(); //instanciamos area de texto
         areaTexto.setBounds(170 , 50, 300, 35);
-        areaTexto.setText("Nombre Empleado");
+        areaTexto.setText("");
         areaTexto.setEditable(false);//permiso de editar contenido
         areaTexto.setBackground(new java.awt.Color(255, 140, 0));
         areaTexto.setFont(new Font("arial", 1, 20));
@@ -80,26 +94,43 @@ public class InicioEmpleado extends JFrame{
     
     private void Boton() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Home");//establecemos texto al boton
         boton1.setBounds(1090, 10, 100, 30);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cerrar Sesión");//establecemos texto al boton
         boton2.setBounds(1200, 10, 150, 30);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
         
-        JButton boton3 = new JButton();
+        boton3 = new JButton();
         boton3.setText("Nueva Venta");//establecemos texto al boton
         boton3.setBounds(520, 205, 300, 30);//posición y tamaño boton
         boton3.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton3.setFont(new Font("chiller", Font.ITALIC, 25));//establecemos fuente, tipo y tamaño de letra del boton
         panel2.add(boton3);//agregar boton al panel
+        boton3.addActionListener(this);
         
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            
+        }else if (e.getSource() == boton2){
+            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this);
+            Av1.setVisible(true);
+        }else if (e.getSource() == boton3){
+            Pedido P1 = new Pedido(IdUsuario);
+            P1.setVisible(true);
+            this.dispose();
+        }
     }
 }
