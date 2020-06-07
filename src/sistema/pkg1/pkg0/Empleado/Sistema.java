@@ -11,8 +11,8 @@ public class Sistema {
         //InicioEmpleado e2 = new InicioEmpleado();
         //e2.setVisible(true);
         
-        Pedido P1 = new Pedido("");
-        P1.setVisible(true);
+        //Pedido P1 = new Pedido("");
+        //P1.setVisible(true);
         
         //AvEliminar Av2 = new AvEliminar();
         //Av2.setVisible(true);
@@ -25,6 +25,9 @@ public class Sistema {
         
         //AvCobrar Av5 = new AvCobrar(null, null);
         //Av5.setVisible(true);
+        
+        //Error er = new Error();
+        //er.setVisible(true);
        
     }
 }

@@ -205,8 +205,9 @@ public class Pedido extends JFrame implements ActionListener {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Precio");
+        modelo.addColumn ("Cantidad");
 
-        //String[] producto1 = {"000", "XXX", "$ XXX"};
+        //String[] producto1 = {"000", "XXX", "$ XXX", "X"};
         //modelo.addRow(producto1);
         tabla = new JTable(modelo);
 
@@ -221,9 +222,26 @@ public class Pedido extends JFrame implements ActionListener {
     public float ObtTotal(){
         float resultado = 0;
         for(int i=0;i<modelo.getRowCount();i++){
-            resultado+=Float.parseFloat((String) modelo.getValueAt(i, 2));
+            resultado+=Float.parseFloat((String) modelo.getValueAt(i, 2)) * Float.parseFloat((String) modelo.getValueAt(i, 3));
         }
         return resultado;
+    }
+    
+    public void AumentarCant(String IdProd){
+        for(int i=0;i<modelo.getRowCount();i++){
+            if(IdProd.equals((String) modelo.getValueAt(i, 0))){
+                int cant = Integer.parseInt((String) modelo.getValueAt(i, 3));
+                cant++;
+                tabla.setValueAt(String.valueOf(cant), i, 3);
+            }
+        }
+    }
+    
+    public Boolean EstaAqui(String IdProd){
+        for(int i=0;i<modelo.getRowCount();i++)
+            if(IdProd.equals((String) modelo.getValueAt(i, 0)))
+                return true;
+        return false;
     }
 
     @Override
@@ -237,7 +255,7 @@ public class Pedido extends JFrame implements ActionListener {
             Av1.setVisible(true);
         } else if (e.getSource() == boton3) {
             if(!"$0".equals(total.getText())){
-                AvCobrar Av5 = new AvCobrar(tabla, this);
+                AvCobrar Av5 = new AvCobrar(tabla, this, IdUsuario);
                 Av5.setVisible(true);
             }
         } else if (e.getSource() == boton4) {
@@ -245,9 +263,13 @@ public class Pedido extends JFrame implements ActionListener {
             try {
                 while (rs.next()) {
                     //System.out.println(rs.getString("id_Producto")+rs.getString("Descripcion")+rs.getFloat("Costo"));
-                    String[] producto1 = {rs.getString("id_Producto"), rs.getString("Descripcion"), rs.getString("Costo")};
-                    modelo.addRow(producto1);
-                    tabla.setModel(modelo);
+                    if(EstaAqui(cajatexto.getText())){
+                        AumentarCant(cajatexto.getText());
+                    }else{
+                        String[] producto1 = {rs.getString("id_Producto"), rs.getString("Descripcion"), rs.getString("Costo"), "1"};
+                        modelo.addRow(producto1);
+                        tabla.setModel(modelo);
+                    }
                     modelo.fireTableDataChanged();
                     total.setText("$"+ObtTotal());
                 }

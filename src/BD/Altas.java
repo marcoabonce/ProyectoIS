@@ -93,4 +93,34 @@ public class Altas {
             return false;
         }
     }
+    
+    public boolean InsertVenta(String IdUsuario, String IdProd, int cant, float total){
+        
+        try {
+            Statement s = conn.createStatement();
+            ResultSet rs;
+            rs = s.executeQuery("SELECT MAX(id_Venta) FROM venta");
+
+            if (rs.next()) {
+                int x;
+                String cadena = rs.getString("MAX(id_Venta)");
+                String subcadena = cadena.substring(2, cadena.length());
+                int idVenta = Integer.parseInt(subcadena) + 1;
+                x = s.executeUpdate("INSERT INTO `venta` (`id_Venta`, `id_Empleado`, `id_Producto`, `Cantidad`, `Total`) "
+                                   +"VALUES ('VL0"+idVenta+"', '"+IdUsuario+"', '"+IdProd+"', '"+cant+"', '"+total+"')");
+                if (x == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error " + e);
+            return false;
+        }
+            
+        
+    }
 }

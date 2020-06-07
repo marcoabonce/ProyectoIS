@@ -10,32 +10,39 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
-public class Terminar extends JFrame implements ActionListener {
-
+/**
+ *
+ * @author dn_as
+ */
+public class Error extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
     JButton boton1;
-    JButton boton2;
-    String IdUsuario;
-
-    public Terminar(String IdUsuario) {
-        this.setSize(500, 400); //Establecemos el tamañno de la ventana (b,h)
+    JLabel name1;
+    JTextArea areaTexto;
+    JFrame frame;
+    
+    public Error(String mensaje1, String mensaje2, JFrame frame){
+        this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
         this.setResizable(false);//la ventana puede cambiar de tamaño o no 
-        Componente();
-        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        /*Que hacer al cerrar la ventanta
+        Componente();        
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE); /*Que hacer al cerrar la ventanta
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
-        this.IdUsuario = IdUsuario;
+        this.name1.setText(mensaje1);
+        this.areaTexto.setText(mensaje2);
+        this.frame = frame;
     }
-
-    private void Componente() {
+    
+    private void Componente(){
         Paneles();
         Labels();
         AreadeTexto();
-        BOTON();
+        BOTON(); 
     }
 
     private void Paneles() {
@@ -48,9 +55,9 @@ public class Terminar extends JFrame implements ActionListener {
     private void Labels() {
         //Etiqueta tipo texto
         JLabel name = new JLabel(); //creación de una etiqueta
-        name.setBounds(170, 50, 150, 95);
+        name.setBounds(190, 50, 120, 35);
         name.setOpaque(true);//permiso para pintar etiqueta
-        name.setText("Aviso"); //establecemos texto en la etiqueta
+        name.setText("ERROR"); //establecemos texto en la etiqueta
         name.setHorizontalAlignment(SwingConstants.CENTER);//alineación de texto
         name.setForeground(Color.RED);//cambiar color de letra
         name.setBackground(new java.awt.Color(250, 250, 210));//cambiar fondo de etiqueta
@@ -58,46 +65,45 @@ public class Terminar extends JFrame implements ActionListener {
                                     (nombre del estilo, tipo [negritas, italita, etc o 
                                     0 sin estilo, 1 negritas, 2 cursiva, 3 negriyas y cursiva], tamaño)*/
         panel.add(name); //Agregamos la etiqueta al panel
+        
+        name1 = new JLabel(); //creación de una etiqueta
+        name1.setBounds(215, 100, 70, 20);
+        name1.setOpaque(true);//permiso para pintar etiqueta
+        name1.setText("ERROR"); //establecemos texto en la etiqueta
+        name1.setHorizontalAlignment(SwingConstants.CENTER);//alineación de texto
+        name1.setForeground(Color.RED);//cambiar color de letra
+        name1.setBackground(new java.awt.Color(250, 250, 210));//cambiar fondo de etiqueta
+        name1.setFont(new Font("arial", 1, 15));/*establecemos la fuente del texto
+                                    (nombre del estilo, tipo [negritas, italita, etc o 
+                                    0 sin estilo, 1 negritas, 2 cursiva, 3 negriyas y cursiva], tamaño)*/
+        panel.add(name1); //Agregamos la etiqueta al panel
     }
-
+    
     private void AreadeTexto() {
-        JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
-        areaTexto.setBounds(100, 150, 300, 50);
-        areaTexto.setText("        Realizar nueva cuenta o ir al inicio ");
+        areaTexto = new JTextArea(); //instanciamos area de texto
+        areaTexto.setBounds(100 , 150, 300, 50);
+        areaTexto.setText("                         Colocar Error");//colocar error
         areaTexto.setEditable(false);//permiso de editar contenido
         areaTexto.setBackground(new java.awt.Color(250, 250, 210));
         areaTexto.setFont(new Font("arial", 1, 15));
         panel.add(areaTexto);
     }
-
+    
     private void BOTON() {
         //Boton de texto
         boton1 = new JButton();
-        boton1.setText("Nueva Cuenta");//establecemos texto al boton
+        boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
-        boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
+        boton1.setFont(new Font("Georgia", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
-        boton1.addActionListener(this);
-
-        boton2 = new JButton();
-        boton2.setText("Inicio");//establecemos texto al boton
-        boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
-        boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
-        boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
-        panel.add(boton2);//agregar boton al panel
-        boton2.addActionListener(this);
+        boton1.addActionListener(this);    
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
-            this.dispose();
-            Pedido P1 = new Pedido(IdUsuario);
-            P1.setVisible(true);
-        }else if (e.getSource() == boton2){
-            InicioEmpleado e2 = new InicioEmpleado(IdUsuario);
-            e2.setVisible(true);
+            frame.dispose();
             this.dispose();
         }
     }
