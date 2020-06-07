@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -150,7 +152,8 @@ public class Empleado extends JFrame implements ActionListener{
                 ErrorCredencialGerente E1 = new ErrorCredencialGerente();
                 E1.setVisible(true);
             } else {
-                InicioEmpleado e2 = new InicioEmpleado(IdUsuario);
+                Calendar car = Calendar.getInstance(); 
+                InicioEmpleado e2 = new InicioEmpleado(IdUsuario, car.get(car.HOUR_OF_DAY));
                 e2.setVisible(true);
                 this.dispose();
             }

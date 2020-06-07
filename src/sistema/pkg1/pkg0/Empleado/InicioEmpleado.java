@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,8 +24,10 @@ public class InicioEmpleado extends JFrame implements ActionListener{
     JTextArea areaTexto;
     Consultas con;
     String IdUsuario;
+    int HoraInicio;
     
-    public InicioEmpleado(String IdUsuario){
+    public InicioEmpleado(String IdUsuario, int HoraInicio){
+        this.HoraInicio = HoraInicio;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -125,10 +128,10 @@ public class InicioEmpleado extends JFrame implements ActionListener{
         if (e.getSource() == boton1){
             
         }else if (e.getSource() == boton2){
-            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this);
+            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this, HoraInicio);
             Av1.setVisible(true);
         }else if (e.getSource() == boton3){
-            Pedido P1 = new Pedido(IdUsuario);
+            Pedido P1 = new Pedido(IdUsuario, HoraInicio);
             P1.setVisible(true);
             this.dispose();
         }

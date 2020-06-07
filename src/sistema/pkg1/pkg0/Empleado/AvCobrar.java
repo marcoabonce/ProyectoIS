@@ -31,8 +31,10 @@ public class AvCobrar extends JFrame implements ActionListener, KeyListener {
     Actualizaciones act;
     String IdUsuario;
     Altas alta;
+    int HoraInicio;
     
-    public AvCobrar(JTable tabla, JFrame frame, String IdUsuario) {
+    public AvCobrar(JTable tabla, JFrame frame, String IdUsuario, int HoraInicio) {
+        this.HoraInicio = HoraInicio;
         this.frame = frame;
         this.tabla = tabla;
         this.setSize(500, 400); //Establecemos el tamañno de la ventana (b,h)
@@ -190,7 +192,7 @@ public class AvCobrar extends JFrame implements ActionListener, KeyListener {
                     System.out.println("Error");
                 } else {
                     registrarVenta();
-                    Terminar Av4 = new Terminar(IdUsuario);
+                    Terminar Av4 = new Terminar(IdUsuario, HoraInicio);
                     Av4.setVisible(true);
                     this.frame.dispose();
                     this.dispose();

@@ -4,6 +4,8 @@ import com.mysql.jdbc.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Altas {
 
@@ -102,12 +104,14 @@ public class Altas {
             rs = s.executeQuery("SELECT MAX(id_Venta) FROM venta");
 
             if (rs.next()) {
+                Calendar cal = Calendar.getInstance();
+                int mes = cal.get(cal.MONTH)+1;
                 int x;
                 String cadena = rs.getString("MAX(id_Venta)");
                 String subcadena = cadena.substring(2, cadena.length());
                 int idVenta = Integer.parseInt(subcadena) + 1;
-                x = s.executeUpdate("INSERT INTO `venta` (`id_Venta`, `id_Empleado`, `id_Producto`, `Cantidad`, `Total`) "
-                                   +"VALUES ('VL0"+idVenta+"', '"+IdUsuario+"', '"+IdProd+"', '"+cant+"', '"+total+"')");
+                x = s.executeUpdate("INSERT INTO `venta` (`id_Venta`, `id_Empleado`, `id_Producto`, `Cantidad`, `Total`, `fecha`) "
+                                   +"VALUES ('VL0"+idVenta+"', '"+IdUsuario+"', '"+IdProd+"', '"+cant+"', '"+total+"', '"+cal.get(cal.YEAR)+"-"+mes+"-"+cal.get(cal.DATE)+"')");
                 if (x == 1) {
                     return true;
                 } else {

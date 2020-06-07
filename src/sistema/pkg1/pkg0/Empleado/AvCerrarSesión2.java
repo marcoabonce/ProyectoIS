@@ -1,9 +1,11 @@
 package sistema.pkg1.pkg0.Empleado;
 
+import BD.Actualizaciones;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,8 +19,11 @@ public class AvCerrarSesión2 extends JFrame implements ActionListener{
     JFrame frame;
     JButton boton1;
     JButton boton2;
+    int HoraInicio;
+    Actualizaciones act;
     
-    public AvCerrarSesión2(JFrame frame){
+    public AvCerrarSesión2(JFrame frame, int HoraInicio){
+        this.HoraInicio = HoraInicio;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -28,6 +33,7 @@ public class AvCerrarSesión2 extends JFrame implements ActionListener{
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.frame = frame;
+        act = new Actualizaciones();
     }
     
     private void Componente(){
@@ -91,6 +97,10 @@ public class AvCerrarSesión2 extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
+            Calendar car = Calendar.getInstance(); 
+            int HoraFinal = car.get(car.HOUR_OF_DAY);
+            int HorasTrabajadas = HoraFinal - this.HoraInicio;
+            
             Empleado e1 = new Empleado();
             e1.setVisible(true); //cambie los colores
             frame.dispose();

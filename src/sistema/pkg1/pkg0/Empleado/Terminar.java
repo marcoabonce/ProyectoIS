@@ -17,8 +17,10 @@ public class Terminar extends JFrame implements ActionListener {
     JButton boton1;
     JButton boton2;
     String IdUsuario;
+    int HoraInicio;
 
-    public Terminar(String IdUsuario) {
+    public Terminar(String IdUsuario, int HoraInicio) {
+        this.HoraInicio = HoraInicio;
         this.setSize(500, 400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -93,10 +95,10 @@ public class Terminar extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
             this.dispose();
-            Pedido P1 = new Pedido(IdUsuario);
+            Pedido P1 = new Pedido(IdUsuario, HoraInicio);
             P1.setVisible(true);
         }else if (e.getSource() == boton2){
-            InicioEmpleado e2 = new InicioEmpleado(IdUsuario);
+            InicioEmpleado e2 = new InicioEmpleado(IdUsuario, HoraInicio);
             e2.setVisible(true);
             this.dispose();
         }

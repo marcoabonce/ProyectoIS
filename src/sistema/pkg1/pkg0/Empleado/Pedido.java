@@ -38,8 +38,10 @@ public class Pedido extends JFrame implements ActionListener {
     String IdUsuario;
     JTable tabla;
     DefaultTableModel modelo;
+    int HoraInicio;
 
-    public Pedido(String IdUsuario) {
+    public Pedido(String IdUsuario, int HoraInicio) {
+        this.HoraInicio = HoraInicio;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -247,15 +249,15 @@ public class Pedido extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1) {
-            InicioEmpleado e2 = new InicioEmpleado(IdUsuario);
+            InicioEmpleado e2 = new InicioEmpleado(IdUsuario, HoraInicio);
             e2.setVisible(true);
             this.dispose();
         } else if (e.getSource() == boton2) {
-            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this);
+            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this, HoraInicio);
             Av1.setVisible(true);
         } else if (e.getSource() == boton3) {
             if(!"$0".equals(total.getText())){
-                AvCobrar Av5 = new AvCobrar(tabla, this, IdUsuario);
+                AvCobrar Av5 = new AvCobrar(tabla, this, IdUsuario, HoraInicio);
                 Av5.setVisible(true);
             }
         } else if (e.getSource() == boton4) {
