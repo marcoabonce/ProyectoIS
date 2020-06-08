@@ -1,24 +1,40 @@
 
 package sistema.pkg1.pkg0;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.WritableCell;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 public class AvDescargarExcelVentas extends JFrame implements ActionListener{
     
     public JPanel panel, panel2;
     JButton boton1;
     JButton boton2;
+    Consultas con;
     
     public AvDescargarExcelVentas(){
+        con = new Consultas();
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -90,11 +106,72 @@ public class AvDescargarExcelVentas extends JFrame implements ActionListener{
         panel.add(boton2);//agregar boton al panel
         boton2.addActionListener(this);
     }
+    
+    public void generarVentas() {
+        try {
+            Calendar cal = Calendar.getInstance(); 
+            int mes = cal.get(Calendar.MONTH) +1 ;
+            String fecha = cal.get(Calendar.YEAR)+"-"+mes+"-"+cal.get(Calendar.DATE);
+            ResultSet rs = con.ConsultarAllVentas(fecha);
+            int cantFilas = 0;
+            if (rs.last()) {//Nos posicionamos al final
+                cantFilas = rs.getRow();//sacamos la cantidad de filas/registros
+                
+            }
+            rs = con.ConsultarAllVentas(fecha);
+            System.out.println(cantFilas);
+            String[][] entrada = new String[cantFilas+1][6];
+            entrada[0][0] = "Id Venta";
+            entrada[0][1] = "Id Empleado";
+            entrada[0][2] = "Id Producto";
+            entrada[0][3] = "Cantidad";
+            entrada[0][4] = "Total";
+            entrada[0][5] = "Fecha";
+            int i = 1;
+            
+            rs.beforeFirst();
+            while (rs.next()) {
+                entrada[i][0] = rs.getString("id_Venta");
+                entrada[i][1] = rs.getString("id_Empleado");
+                entrada[i][2] = rs.getString("id_Producto");
+                entrada[i][3] = String.valueOf(rs.getInt("Cantidad"));
+                entrada[i][4] = String.valueOf(rs.getFloat("Total"));
+                entrada[i][5] = rs.getString("fecha");
+                i++;
+            }
+
+            WorkbookSettings conf = new WorkbookSettings();
+            conf.setEncoding("USO-8859-1");
+            File file = new File("C:\\Users\\PC\\Desktop\\Ventas.xls");
+            WritableWorkbook woorbook = Workbook.createWorkbook(file, conf);
+
+            WritableSheet sheet = woorbook.createSheet("Resultado", 0);
+
+            WritableFont h = new WritableFont(WritableFont.COURIER, 16, WritableFont.NO_BOLD);
+            WritableCellFormat hFormat = new WritableCellFormat(h);
+
+            for (i = 0; i < entrada.length; i++) {
+                for (int j = 0; j < entrada[i].length; j++) {
+                    WritableCell w;
+                    sheet.addCell(new jxl.write.Label(j, i, entrada[i][j], hFormat));
+                }
+            }
+            woorbook.write();
+            woorbook.close();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        } catch (WriteException ex) {
+            System.out.println(ex);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
-            
+            generarVentas();
+            this.dispose();
         }else if (e.getSource() == boton2){
             this.dispose();
         }

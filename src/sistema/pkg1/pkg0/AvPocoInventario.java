@@ -2,6 +2,8 @@ package sistema.pkg1.pkg0;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,9 +12,19 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 
-public class AvPocoInventario extends JFrame{
+public class AvPocoInventario extends JFrame implements ActionListener{
+    
     public JPanel panel, panel2;
-    public AvPocoInventario(){
+    JButton boton1;
+    JButton boton2;
+    String mensaje1;
+    String mensaje2;
+    String idProv;
+    
+    public AvPocoInventario(String mensaje1, String mensaje2, String idProv){
+        this.mensaje1 = mensaje1;
+        this.mensaje2 = mensaje2;
+        this.idProv = idProv;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -57,9 +69,9 @@ public class AvPocoInventario extends JFrame{
     private void AreadeTexto() {
         JTextArea areaTexto = new JTextArea(); //instanciamos area de texto
         areaTexto.setBounds(100 , 150, 300, 100);
-        areaTexto.setText("        El producto XXXXX solo cuenta con ");
+        areaTexto.setText("        El producto "+this.mensaje1+" solo cuenta con ");
         areaTexto.append("\r\n");//añade más texto al area de texto
-        areaTexto.append("               XX unidades en almacen");//añade más texto al area de texto
+        areaTexto.append("               "+this.mensaje2+" unidades en almacen");//añade más texto al area de texto
         areaTexto.append("\r\n");//añade más texto al area de texto
         areaTexto.append("        ¿Desea contactar con Proveedor?");//añade más texto al area de texto
         areaTexto.setEditable(false);//permiso de editar contenido
@@ -70,18 +82,33 @@ public class AvPocoInventario extends JFrame{
     
     private void BOTON() {
         //Boton de texto
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("Aceptar");//establecemos texto al boton
         boton1.setBounds(40, 300, 200, 50);//posición y tamaño boton
         boton1.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton1.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton1);//agregar boton al panel
+        boton1.addActionListener(this);
         
-        JButton boton2 = new JButton();
+        boton2 = new JButton();
         boton2.setText("Cancelar");//establecemos texto al boton
         boton2.setBounds(260, 300, 200, 50);//posición y tamaño boton
         boton2.setForeground(Color.blue);//establecemos el color de la letra del boton
         boton2.setFont(new Font("chiller", Font.ITALIC, 20));//establecemos fuente, tipo y tamaño de letra del boton
         panel.add(boton2);//agregar boton al panel
+        boton2.addActionListener(this);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == boton1){
+            DatosProveedor D1 = new DatosProveedor(idProv);
+            D1.setVisible(true);
+            this.dispose();
+        }else if (e.getSource() == boton2){
+            this.dispose();
+        }
+    }
+    
+    
 }

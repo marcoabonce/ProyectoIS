@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistema.pkg1.pkg0;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,13 +13,27 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.WritableCell;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+
 public class AvDescargarExcelStock extends JFrame implements ActionListener {
 
     public JPanel panel, panel2;
     JButton boton1;
     JButton boton2;
+    Consultas con;
 
     public AvDescargarExcelStock() {
+        con = new Consultas();
         this.setSize(500, 400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -95,11 +106,72 @@ public class AvDescargarExcelStock extends JFrame implements ActionListener {
         boton2.addActionListener(this);
     }
 
+    public void generarStock() {
+        try {
+            ResultSet rs = con.ConsultarAllProd();
+            int cantFilas = 0;
+            if (rs.last()) {//Nos posicionamos al final
+                cantFilas = rs.getRow();//sacamos la cantidad de filas/registros
+                
+            }
+            rs = con.ConsultarAllProd();
+            System.out.println(cantFilas);
+            String[][] entrada = new String[cantFilas+1][8];
+            entrada[0][0] = "Id Producto";
+            entrada[0][1] = "Descripcion";
+            entrada[0][2] = "Costo";
+            entrada[0][3] = "Inventario";
+            entrada[0][4] = "Fecha de ultima compra";
+            entrada[0][5] = "Id Proveedor";
+            entrada[0][6] = "Fecha Caducidad";
+            entrada[0][7] = "Subcategoria";
+            int i = 1;
+            rs.beforeFirst();
+            while (rs.next()) {
+                entrada[i][0] = rs.getString("id_Producto");
+                entrada[i][1] = rs.getString("Descripcion");
+                entrada[i][2] = String.valueOf(rs.getFloat("Costo"));
+                entrada[i][3] = String.valueOf(rs.getInt("Inventario"));
+                entrada[i][4] = rs.getString("Fecha_ult_compra");
+                entrada[i][5] = rs.getString("id_Proveedor");
+                entrada[i][6] = rs.getString("Fecha_caducidad");
+                entrada[i][7] = rs.getString("subcategoría");
+                i++;
+            }
+
+            WorkbookSettings conf = new WorkbookSettings();
+            conf.setEncoding("USO-8859-1");
+            File file = new File("C:\\Users\\PC\\Desktop\\Stock.xls");
+            WritableWorkbook woorbook = Workbook.createWorkbook(file, conf);
+
+            WritableSheet sheet = woorbook.createSheet("Resultado", 0);
+
+            WritableFont h = new WritableFont(WritableFont.COURIER, 16, WritableFont.NO_BOLD);
+            WritableCellFormat hFormat = new WritableCellFormat(h);
+
+            for (i = 0; i < entrada.length; i++) {
+                for (int j = 0; j < entrada[i].length; j++) {
+                    WritableCell w;
+                    sheet.addCell(new jxl.write.Label(j, i, entrada[i][j], hFormat));
+                }
+            }
+            woorbook.write();
+            woorbook.close();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        } catch (WriteException ex) {
+            System.out.println(ex);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == boton1){
-            
-        }else if (e.getSource() == boton2){
+        if (e.getSource() == boton1) {
+            generarStock();
+            this.dispose();
+        } else if (e.getSource() == boton2) {
             this.dispose();
         }
     }

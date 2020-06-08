@@ -18,8 +18,10 @@ public class AvCerrarSesión3 extends JFrame implements ActionListener{
     int Pantalla;
     JButton boton1;
     JButton boton2;
+    JFrame frame;
     
-    public AvCerrarSesión3(String IdUsuario, int Pantalla){
+    public AvCerrarSesión3(String IdUsuario, JFrame frame){
+        this.frame = frame;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -95,29 +97,10 @@ public class AvCerrarSesión3 extends JFrame implements ActionListener{
         if (e.getSource() == boton1){
             Admin a1 = new Admin();
             a1.setVisible(true);
+            frame.dispose();
             this.dispose();
         }else if (e.getSource() == boton2){
-            if(Pantalla == 1){
-                InicioAdmin a2 = new InicioAdmin(IdUsuario);
-                a2.setVisible(true);
-                this.dispose();
-            }else if(Pantalla == 2){
-                Productos P1 = new Productos(IdUsuario, "0");
-                P1.setVisible(true);
-                this.dispose();
-            }else if(Pantalla == 3){
-                Gerentes P2 = new Gerentes(IdUsuario, "0");
-                P2.setVisible(true);
-                this.dispose();
-            }else if(Pantalla == 4){
-                Empleados P3 = new Empleados(IdUsuario, "0");
-                P3.setVisible(true);
-                this.dispose();
-            }else if(Pantalla == 5){
-                Proveedores P4 = new Proveedores(IdUsuario, "0");
-                P4.setVisible(true);
-                this.dispose();
-            }
+            this.dispose();
         }
     }
 }

@@ -19,8 +19,8 @@ public class Consultas {
             Statement s = conn.createStatement();
             ResultSet rs;
             rs = s.executeQuery ("SELECT empleado.id_Empleado\n" +
-"from empleado INNER JOIN gerente ON empleado.id_Empleado = gerente.id_Empleado\n" +
-"where empleado.id_Empleado = '"+Usuario+"' AND empleado.Password = '"+Password+"' ");
+                                 "from empleado INNER JOIN gerente ON empleado.id_Empleado = gerente.id_Empleado\n" +
+                                 "where empleado.id_Empleado = '"+Usuario+"' AND empleado.Password = '"+Password+"' ");
             
             if(rs.next() == false){
                 return "404-Not";
@@ -300,4 +300,111 @@ public class Consultas {
         }
     }
     
+    public Boolean ConsultaVendedor(String IdVendedor, String fecha){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            rs = s.executeQuery ("SELECT vendedor.id_Empleado "
+                                +"FROM vendedor "
+                                +"WHERE vendedor.id_Empleado = '"+IdVendedor+"' AND vendedor.fecha = '"+fecha+"' ");
+            if(rs.next()){
+                return true;
+            }else
+                return false; 
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return false;
+        }
+    }
+    
+    public int ConsultaVentasVendedor(String IdUsuario, String fecha){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            rs = s.executeQuery ("SELECT COUNT(id_Venta)\n" +
+                                 "FROM venta\n" +
+                                 "WHERE id_Empleado = '"+IdUsuario+"' AND fecha = '"+fecha+"'");
+            if(rs.next()){
+                return rs.getInt("COUNT(id_Venta)");
+            }else
+                return 0; 
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return 0;
+        }
+    }
+    
+    public Boolean ConsultaGerente(String IdGerente, String fecha){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            rs = s.executeQuery ("SELECT id_Empleado "
+                                +"FROM gerente "
+                                +"WHERE id_Empleado = '"+IdGerente+"' AND fecha = '"+fecha+"' ");
+            if(rs.next()){
+                return true;
+            }else
+                return false; 
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return false;
+        }
+    }
+    
+    public ResultSet ConsultarAllVentas(String fecha){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT id_Venta, id_Empleado, id_Producto, Cantidad, Total, fecha "
+                                +"FROM venta "
+                                +"WHERE fecha = '"+fecha+"' ");
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public ResultSet ConsultarAllVendedores(String fecha){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            
+            rs = s.executeQuery ("SELECT * "
+                                +"FROM vendedor "
+                                +"WHERE fecha = '"+fecha+"' ");
+            return rs;
+            /*if(rs.next() == false){
+                return "Sin nombre";
+            }else{
+                System.out.println(rs.getString("proveedor.id_Proveedor")+rs.getString("proveedor.Nombre")+rs.getString("producto.Descripcion")+rs.getString("proveedor.Telefono"));
+                 
+            }*/
+                
+        }catch(SQLException e){
+            System.out.println("Error "+e);
+            return rs;
+        }
+    }
+    
+    public int DifDias(String fecha1, String fecha2){
+        ResultSet rs = null;
+        try{
+            Statement s = conn.createStatement();
+            rs = s.executeQuery ("SELECT DATEDIFF('"+fecha1+"','"+fecha2+"') ");
+            rs.next();
+            return rs.getInt("DATEDIFF('"+fecha1+"','"+fecha2+"')");
+        }catch(SQLException e){
+            System.out.println("Error1 "+e);
+            return 0;
+        }
+    }
 }

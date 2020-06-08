@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.*;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -119,14 +120,14 @@ public class Gerente extends JFrame implements ActionListener {
     private void Credencial() {
         cajatexto = new JTextField();
         cajatexto.setBounds(590, 255, 200, 20);
-        cajatexto.setText("hola");
+        cajatexto.setText("");
         panel2.add(cajatexto);
     }
 
     private void Contraseña() {
         password = new JPasswordField();
         password.setBounds(590, 305, 200, 20);
-        password.setText("CONTRASEÑA");
+        password.setText("");
         panel2.add(password);
     }
 
@@ -147,14 +148,15 @@ public class Gerente extends JFrame implements ActionListener {
             Consultas consulta = new Consultas();
 
             IdUsuario = consulta.ConsultaLogInGerente(cajatexto.getText(), String.valueOf(password.getPassword()));
-            if (IdUsuario == "404-Not") {
+            if ("404-Not".equals(IdUsuario)) {
                 ErrorCredencialGerente E1 = new ErrorCredencialGerente();
                 E1.setVisible(true);
             } else {
-                panel.setVisible(false);
-                panel2.setVisible(false);
-                InicioGerente g2 = new InicioGerente(IdUsuario);
+                Calendar car = Calendar.getInstance(); 
+                InicioGerente g2 = new InicioGerente(IdUsuario, car.get(car.HOUR_OF_DAY));
                 g2.setVisible(true);
+                g2.checarInv();
+                g2.checarCad();
                 this.dispose();
             }
 

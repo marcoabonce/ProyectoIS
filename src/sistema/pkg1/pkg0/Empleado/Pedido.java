@@ -253,7 +253,7 @@ public class Pedido extends JFrame implements ActionListener {
             e2.setVisible(true);
             this.dispose();
         } else if (e.getSource() == boton2) {
-            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this, HoraInicio);
+            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this, HoraInicio, IdUsuario);
             Av1.setVisible(true);
         } else if (e.getSource() == boton3) {
             if(!"$0".equals(total.getText())){

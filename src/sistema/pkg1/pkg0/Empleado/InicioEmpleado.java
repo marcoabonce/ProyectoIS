@@ -128,7 +128,7 @@ public class InicioEmpleado extends JFrame implements ActionListener{
         if (e.getSource() == boton1){
             
         }else if (e.getSource() == boton2){
-            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this, HoraInicio);
+            AvCerrarSesión2 Av1 = new AvCerrarSesión2(this, HoraInicio, IdUsuario);
             Av1.setVisible(true);
         }else if (e.getSource() == boton3){
             Pedido P1 = new Pedido(IdUsuario, HoraInicio);

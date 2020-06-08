@@ -1,9 +1,13 @@
 package sistema.pkg1.pkg0;
 
+import BD.Actualizaciones;
+import BD.Altas;
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,9 +21,18 @@ public class AvCerrarSesión extends JFrame implements ActionListener{
     JButton boton1;
     JButton boton2;
     String IdUsuario;
-    int Pantalla;
+    JFrame frame;
+    int horaInicio;
+    Consultas con;
+    Altas alt;
+    Actualizaciones act;
     
-    public AvCerrarSesión(String IdUsuario, int Pantalla){
+    public AvCerrarSesión(String IdUsuario, JFrame frame, int horaInicio){
+        this.con = new Consultas();
+        this.alt = new Altas();
+        this.act = new Actualizaciones();
+        this.horaInicio = horaInicio;
+        this.frame = frame;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -29,7 +42,6 @@ public class AvCerrarSesión extends JFrame implements ActionListener{
                                                         (DO_NOTHING_ON_CLOSE/HIDE_ON_CLOSE
                                                         /DISPOSE_ON_CLOSE/EXIT_ON_CLOSE)*/
         this.IdUsuario = IdUsuario;
-        this.Pantalla = Pantalla;
     }
     
     private void Componente(){
@@ -91,26 +103,34 @@ public class AvCerrarSesión extends JFrame implements ActionListener{
         panel.add(boton2);//agregar boton al panel
         boton2.addActionListener(this);
     }
+    
+    public void ActGerente(int HorasTrabajadas){
+        Calendar cal = Calendar.getInstance(); 
+        int mes = cal.get(cal.MONTH) +1 ;
+        String fecha = cal.get(cal.YEAR)+"-"+mes+"-"+cal.get(cal.DATE);
+        if(con.ConsultaGerente(IdUsuario, fecha)){
+            if(!act.ActGerente(IdUsuario, fecha, HorasTrabajadas))
+                System.out.println("Error al actualizar horas de empleado");
+        }else{
+            if(!alt.InsertGerente(IdUsuario, HorasTrabajadas, fecha)){
+                System.out.println("Error al insertar nuevo vendedor");
+            }
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
-            Gerente g1;
-            g1 = new Gerente();
+            Calendar car = Calendar.getInstance(); 
+            int HoraFinal = car.get(car.HOUR_OF_DAY);
+            int HorasTrabajadas = HoraFinal - this.horaInicio;
+            ActGerente(HorasTrabajadas);
+            Gerente g1 = new Gerente();
             g1.setVisible(true);
+            frame.dispose();
+            this.dispose();
         }else if (e.getSource() == boton2){
-            if(Pantalla == 1){
-                InicioGerente g2 = new InicioGerente(IdUsuario);
-                g2.setVisible(true);
-            }else if(Pantalla == 2){
-                Proveedor P1 = new Proveedor(IdUsuario);
-                P1.setVisible(true);
-                panel.setVisible(false);
-                this.dispose();
-            }
-            
+            this.dispose();
         }
-        panel.setVisible(false);
-        this.dispose();
     }
 }

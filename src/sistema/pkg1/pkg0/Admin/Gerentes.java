@@ -223,9 +223,8 @@ public class Gerentes extends JFrame implements ActionListener {
             a2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 3);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, this);
             Av1.setVisible(true);
-            this.dispose();
         }else if (e.getSource() == boton3){
             NuevoGerente N2 = new NuevoGerente();
             N2.setVisible(true);

@@ -13,25 +13,25 @@ public class Sistema10{
         //g2.setVisible(false);
         
         //AvDescargarExcelVentas Av1 = new AvDescargarExcelVentas();
-        //Av1.setVisible(false);
+        //Av1.setVisible(true);
         
         //AvDescargarExcelStock Av2 = new AvDescargarExcelStock();
-        //Av2.setVisible(false);
+        //Av2.setVisible(true);
         
         //AvDescargarAdherenciaEmpleados Av3 = new AvDescargarAdherenciaEmpleados();
-        //Av3.setVisible(false);
+        //Av3.setVisible(true);
         
         //AvCerrarSesión Av4 = new AvCerrarSesión();
         //Av4.setVisible(false);
         
-        DatosProveedor D1 = new DatosProveedor("");
-        D1.setVisible(true);
+        //DatosProveedor D1 = new DatosProveedor("");
+        //D1.setVisible(true);
         
         //AvPocoInventario Av5 = new AvPocoInventario();
         //Av5.setVisible(false);
         
         //AvCaducidad Av6 = new AvCaducidad();
-        //Av6.setVisible(false);
+        //Av6.setVisible(true);
         
         //Proveedor P1 = new Proveedor();
         //P1.setVisible(false);

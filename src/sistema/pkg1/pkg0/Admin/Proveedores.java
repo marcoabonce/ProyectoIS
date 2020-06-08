@@ -222,9 +222,8 @@ public class Proveedores extends JFrame implements ActionListener {
             a2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 5);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, this);
             Av1.setVisible(true);
-            this.dispose();
         }else if (e.getSource() == boton3){
             NuevoProveedor N4 = new NuevoProveedor();
             N4.setVisible(true);

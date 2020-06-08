@@ -223,9 +223,8 @@ public class Productos extends JFrame implements ActionListener {
             a2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, 2);
+            AvCerrarSesión3 Av1 = new AvCerrarSesión3(IdUsuario, this);
             Av1.setVisible(true);
-            this.dispose();
         }else if (e.getSource() == boton3){
             NuevoProducto N1 = new NuevoProducto();
             N1.setVisible(true);

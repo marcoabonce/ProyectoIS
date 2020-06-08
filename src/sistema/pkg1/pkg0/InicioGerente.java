@@ -7,6 +7,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,10 +30,11 @@ public class InicioGerente extends JFrame implements ActionListener{
     JButton boton4;
     JButton boton5;
     JButton boton6;
+    int horaInicio;
     
     
-    
-    public InicioGerente(String IdUsuario){
+    public InicioGerente(String IdUsuario, int horaInicio){
+        this.horaInicio = horaInicio;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -49,8 +53,6 @@ public class InicioGerente extends JFrame implements ActionListener{
         Labels();
         AreadeTexto();
         Boton();
-               
-        
     }
 
     private void Paneles() {
@@ -148,16 +150,47 @@ public class InicioGerente extends JFrame implements ActionListener{
         panel2.add(boton6);//agregar boton al panel
         boton6.addActionListener(this);
     }
+    
+    //if(con.DifDias(fecha, rs.getString("Fecha_caducidad")) <= 3)
+    
+    public void checarInv(){
+        try{
+            ResultSet rs = con.ConsultarAllProd();
+            while(rs.next()){
+                if(rs.getInt("Inventario") <= 4){
+                    AvPocoInventario Av5 = new AvPocoInventario(rs.getString("Descripcion"), rs.getString("Inventario"), rs.getString("id_Proveedor"));
+                    Av5.setVisible(true);
+                }
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
+    
+    public void checarCad(){
+        try{
+            Calendar cal = Calendar.getInstance(); 
+            int mes = cal.get(Calendar.MONTH) +1 ;
+            String fecha = cal.get(Calendar.YEAR)+"-"+mes+"-"+cal.get(Calendar.DATE);
+            ResultSet rs = con.ConsultarAllProd();
+            while(rs.next()){
+                if(con.DifDias(rs.getString("Fecha_caducidad"),fecha) <= 3){
+                    AvCaducidad Av6 = new AvCaducidad(rs.getString("Descripcion"), rs.getString("Fecha_caducidad"), rs.getString("id_Proveedor"));
+                    Av6.setVisible(true);
+                }
+            }
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
             
         }else if (e.getSource() == boton2){
-            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario, 1);
+            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario, this, horaInicio);
             Av4.setVisible(true);
-            panel.setVisible(false);
-            this.dispose();
         }else if (e.getSource() == boton3){
             AvDescargarExcelStock Av2 = new AvDescargarExcelStock();
             Av2.setVisible(true);
@@ -168,9 +201,8 @@ public class InicioGerente extends JFrame implements ActionListener{
             AvDescargarAdherenciaEmpleados Av3 = new AvDescargarAdherenciaEmpleados();
             Av3.setVisible(true);
         }else if(e.getSource() == boton6){
-            Proveedor P1 = new Proveedor(IdUsuario);
+            Proveedor P1 = new Proveedor(IdUsuario, horaInicio);
             P1.setVisible(true);
-            panel.setVisible(false);
             this.dispose();
         }
     }

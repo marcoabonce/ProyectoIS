@@ -1,6 +1,8 @@
 package sistema.pkg1.pkg0.Empleado;
 
 import BD.Actualizaciones;
+import BD.Altas;
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -21,8 +23,14 @@ public class AvCerrarSesión2 extends JFrame implements ActionListener{
     JButton boton2;
     int HoraInicio;
     Actualizaciones act;
+    String IdUsuario;
+    Consultas con;
+    Altas alt;
     
-    public AvCerrarSesión2(JFrame frame, int HoraInicio){
+    public AvCerrarSesión2(JFrame frame, int HoraInicio, String IdUsuario){
+        alt = new Altas();
+        con = new Consultas();
+        this.IdUsuario = IdUsuario;
         this.HoraInicio = HoraInicio;
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
@@ -93,6 +101,20 @@ public class AvCerrarSesión2 extends JFrame implements ActionListener{
         panel.add(boton2);//agregar boton al panel
         boton2.addActionListener(this);
     }
+    
+    public void ActVendedor(int HorasTrabajadas){
+        Calendar cal = Calendar.getInstance(); 
+        int mes = cal.get(cal.MONTH) +1 ;
+        String fecha = cal.get(cal.YEAR)+"-"+mes+"-"+cal.get(cal.DATE);
+        if(con.ConsultaVendedor(IdUsuario, fecha)){
+            if(!act.ActVendedor(IdUsuario, fecha, HorasTrabajadas, con.ConsultaVentasVendedor(IdUsuario, fecha)))
+                System.out.println("Error al actualizar horas de empleado");
+        }else{
+            if(!alt.InsertVendedor(IdUsuario, con.ConsultaVentasVendedor(IdUsuario, fecha), HorasTrabajadas, fecha)){
+                System.out.println("Error al insertar nuevo vendedor");
+            }
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -100,7 +122,7 @@ public class AvCerrarSesión2 extends JFrame implements ActionListener{
             Calendar car = Calendar.getInstance(); 
             int HoraFinal = car.get(car.HOUR_OF_DAY);
             int HorasTrabajadas = HoraFinal - this.HoraInicio;
-            
+            ActVendedor(HorasTrabajadas);
             Empleado e1 = new Empleado();
             e1.setVisible(true); //cambie los colores
             frame.dispose();

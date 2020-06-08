@@ -27,8 +27,10 @@ public class Proveedor extends JFrame implements ActionListener{
     JButton boton3;
     JButton boton4;
     JTextField cajatexto;
+    int horaInicio;
     
-    public Proveedor(String IdUsuario){
+    public Proveedor(String IdUsuario, int horaInicio){
+        this.horaInicio = horaInicio;
         this.setTitle("Sistema 1.0");//poner titulo
         this.setResizable(true);//la ventana puede cambiar de tamaño o no 
         this.setExtendedState(MAXIMIZED_BOTH);//Maximizar ventana automaticamente
@@ -152,21 +154,17 @@ public class Proveedor extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
-            panel.setVisible(false);
-            InicioGerente g2 = new InicioGerente(IdUsuario);
+            InicioGerente g2 = new InicioGerente(IdUsuario, horaInicio);
             g2.setVisible(true);
             this.dispose();
         }else if (e.getSource() == boton2){
-            panel.setVisible(false);
-            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario, 2);
+            AvCerrarSesión Av4 = new AvCerrarSesión(IdUsuario, this, horaInicio);
             Av4.setVisible(true);
-            this.dispose();
         }else if (e.getSource() == boton3){
             DatosProveedor D1 = new DatosProveedor(cajatexto.getText());
             D1.setVisible(true);
         }else if (e.getSource() == boton4){
-            panel.setVisible(false);
-            InicioGerente g2 = new InicioGerente(IdUsuario);
+            InicioGerente g2 = new InicioGerente(IdUsuario, horaInicio);
             g2.setVisible(true);
             this.dispose();
         }

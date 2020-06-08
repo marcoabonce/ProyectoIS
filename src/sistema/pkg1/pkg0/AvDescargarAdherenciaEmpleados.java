@@ -1,23 +1,39 @@
 package sistema.pkg1.pkg0;
 
+import BD.Consultas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.write.WritableCell;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionListener{
     
     public JPanel panel, panel2;
     JButton boton1;
     JButton boton2;
+    Consultas con;
     
     public AvDescargarAdherenciaEmpleados(){
+        con = new Consultas();
         this.setSize(500,400); //Establecemos el tamañno de la ventana (b,h)
         this.setTitle("Aviso");//poner titulo
         this.setLocationRelativeTo(null);//establecemos la ventana en el centro de la pantalla
@@ -90,10 +106,67 @@ public class AvDescargarAdherenciaEmpleados extends JFrame implements ActionList
         boton2.addActionListener(this);
     }
 
+    public void generarAdherencia() {
+        try {
+            Calendar cal = Calendar.getInstance(); 
+            int mes = cal.get(Calendar.MONTH) +1 ;
+            String fecha = cal.get(Calendar.YEAR)+"-"+mes+"-"+cal.get(Calendar.DATE);
+            ResultSet rs = con.ConsultarAllVendedores(fecha);
+            int cantFilas = 0;
+            if (rs.last()) {//Nos posicionamos al final
+                cantFilas = rs.getRow();//sacamos la cantidad de filas/registros
+                
+            }
+            rs = con.ConsultarAllVendedores(fecha);
+            System.out.println(cantFilas);
+            String[][] entrada = new String[cantFilas+1][4];
+            entrada[0][0] = "id Empleado";
+            entrada[0][1] = "Ventas";
+            entrada[0][2] = "Horas laboradas";
+            entrada[0][3] = "fecha";
+            int i = 1;
+            
+            rs.beforeFirst();
+            while (rs.next()) {
+                entrada[i][0] = rs.getString("id_Empleado");
+                entrada[i][1] = rs.getString("Ventas");
+                entrada[i][2] = rs.getString("Horas_laboradas");
+                entrada[i][3] = String.valueOf(rs.getInt("fecha"));
+                i++;
+            }
+
+            WorkbookSettings conf = new WorkbookSettings();
+            conf.setEncoding("USO-8859-1");
+            File file = new File("C:\\Users\\PC\\Desktop\\Empleados.xls");
+            WritableWorkbook woorbook = Workbook.createWorkbook(file, conf);
+
+            WritableSheet sheet = woorbook.createSheet("Resultado", 0);
+
+            WritableFont h = new WritableFont(WritableFont.COURIER, 16, WritableFont.NO_BOLD);
+            WritableCellFormat hFormat = new WritableCellFormat(h);
+
+            for (i = 0; i < entrada.length; i++) {
+                for (int j = 0; j < entrada[i].length; j++) {
+                    WritableCell w;
+                    sheet.addCell(new jxl.write.Label(j, i, entrada[i][j], hFormat));
+                }
+            }
+            woorbook.write();
+            woorbook.close();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        } catch (WriteException ex) {
+            System.out.println(ex);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boton1){
-            
+            generarAdherencia();
+            this.dispose();
         }else if (e.getSource() == boton2){
             this.dispose();
         }

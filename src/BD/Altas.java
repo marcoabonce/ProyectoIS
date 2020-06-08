@@ -124,7 +124,41 @@ public class Altas {
             System.out.println("Error " + e);
             return false;
         }
+    }
+    
+    public boolean InsertVendedor(String IdUsuario, int ventas, int horas, String fecha){
+        try {
+            Statement s = conn.createStatement();
+                int x;
+                x = s.executeUpdate("INSERT INTO `vendedor` (`id_Empleado`, `Ventas`, `Horas_laboradas`, `fecha`) "
+                                   +"VALUES ('"+IdUsuario+"', '"+ventas+"', '"+horas+"', '"+fecha+"');");
+                if (x == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
             
-        
+        } catch (SQLException e) {
+            System.out.println("Error " + e);
+            return false;
+        }
+    }
+    
+    public boolean InsertGerente(String IdUsuario, int horas, String fecha){
+        try {
+            Statement s = conn.createStatement();
+                int x;
+                x = s.executeUpdate("INSERT INTO `gerente` (`id_Empleado`, `Horas_laboradas`, `fecha`) "
+                                   +"VALUES ('"+IdUsuario+"', '"+horas+"', '"+fecha+"'); ");
+                if (x == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            
+        } catch (SQLException e) {
+            System.out.println("Error " + e);
+            return false;
+        }
     }
 }
